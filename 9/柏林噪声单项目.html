@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<!-- saved from url=(0040)http://106.53.183.85/asd-cms/jiami9.html -->
+<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>v9 柏林噪声加密</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Courier New', monospace; background: #0a0a0a; color: #e0e0e0; padding: 20px; }
+h1 { color: #00ccff; margin-bottom: 5px; font-size: 20px; }
+.subtitle { color: #666; font-size: 12px; margin-bottom: 20px; }
+.container { max-width: 800px; margin: 0 auto; }
+.row { display: flex; gap: 10px; margin-bottom: 10px; }
+label { display: block; color: #888; font-size: 12px; margin-bottom: 4px; }
+input, textarea { width: 100%; background: #1a1a1a; border: 1px solid #333; color: #e0e0e0; padding: 8px; font-family: 'Courier New', monospace; font-size: 14px; border-radius: 4px; }
+input:focus, textarea:focus { border-color: #00ccff; outline: none; }
+textarea { height: 80px; resize: vertical; }
+.btn { padding: 8px 20px; border: 1px solid #00ccff; background: transparent; color: #00ccff; cursor: pointer; font-family: 'Courier New', monospace; font-size: 13px; border-radius: 4px; transition: all 0.2s; }
+.btn:hover { background: #00ccff; color: #0a0a0a; }
+.btn-group { display: flex; gap: 8px; margin: 15px 0; }
+.output-box { background: #111; border: 1px solid #333; padding: 12px; min-height: 60px; word-break: break-all; font-size: 14px; border-radius: 4px; }
+.output-box.cipher { color: #ff6600; }
+.output-box.plain { color: #00ff88; }
+canvas { width: 100%; border: 1px solid #333; border-radius: 4px; margin: 15px 0; background: #111; }
+.info { color: #555; font-size: 11px; margin-top: 5px; }
+.section { margin-bottom: 20px; }
+.noise-values { color: #444; font-size: 11px; margin-top: 5px; word-break: break-all; max-height: 60px; overflow-y: auto; }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>v9 · Perlin Noise Cipher</h1>
+<p class="subtitle">密钥即种子，噪声即偏移</p>
+
+<div class="section">
+<div class="row">
+<div style="flex:1">
+<label>密钥 (种子)</label>
+<input type="text" id="seedInput" value="street" placeholder="任意文本作为密钥">
+</div>
+<div style="flex:0 0 auto; display:flex; align-items:flex-end;">
+<button class="btn" onclick="updateCurve()">刷新曲线</button>
+</div>
+</div>
+</div>
+
+<div class="section">
+<canvas id="noiseCanvas" height="300" width="1600"></canvas>
+<div class="noise-values" id="noiseInfo"></div>
+</div>
+
+<div class="section">
+<label>明文输入</label>
+<textarea id="plainInput" placeholder="输入要加密的文字...">Hello World!</textarea>
+</div>
+
+<div class="btn-group">
+<button class="btn" onclick="encrypt()">加密 →</button>
+<button class="btn" onclick="decrypt()">← 解密</button>
+</div>
+
+<div class="section">
+<label>密文</label>
+<div class="output-box cipher" id="cipherOutput">-</div>
+</div>
+
+<div class="section">
+<label>解密结果</label>
+<div class="output-box plain" id="plainOutput">-</div>
+</div>
+
+<div class="info">
+lib1: 95个可打印ASCII字符 (空格~波浪号) · 柏林噪声偏移 · 同密钥=同曲线=可逆
+</div>
+</div>
+
+<script>
+// ===== 字符库 =====
+const lib1 = [];
+for (let i = 32; i <= 126; i++) lib1.push(String.fromCharCode(i));
+// lib1 = [' ', '!', '"', '#', ... , '~']  共95个字符
+
+// ===== 柏林噪声引擎 =====
+class PerlinNoise {
+    constructor(seed) {
+        this.perm = new Uint8Array(512);
+        this.setSeed(seed);
+    }
+
+    setSeed(seed) {
+        // 密钥字符串 → 数字种子
+        let hash = 0;
+        const str = String(seed);
+        for (let i = 0; i < str.length; i++) {
+            hash = ((hash << 5) - hash + str.charCodeAt(i)) | 0;
+        }
+        
+        // 用种子生成 0-255 的随机排列（Fisher-Yates洗牌）
+        const p = new Uint8Array(256);
+        for (let i = 0; i < 256; i++) p[i] = i;
+        
+        // 简单但确定性的伪随机数生成器
+        let s = Math.abs(hash) || 1;
+        const rand = () => {
+            s = (s * 1664525 + 1013904223) & 0xFFFFFFFF;
+            return (s >>> 0) / 0xFFFFFFFF;
+        };
+        
+        // 洗牌
+        for (let i = 255; i > 0; i--) {
+            const j = Math.floor(rand() * (i + 1));
+            [p[i], p[j]] = [p[j], p[i]];
+        }
+        
+        // 复制一份，避免越界
+        for (let i = 0; i < 256; i++) {
+            this.perm[i] = p[i];
+            this.perm[i + 256] = p[i];
+        }
+    }
+
+    // 平滑插值函数 (Ken Perlin改进版)
+    fade(t) {
+        return t * t * t * (t * (t * 6 - 15) + 10);
+    }
+
+    // 线性插值
+    lerp(a, b, t) {
+        return a + t * (b - a);
+    }
+
+    // 梯度函数：根据排列表的值决定方向和强度
+    grad(hash, x) {
+        // 用hash的低4位选择梯度方向
+        const h = hash & 0xF;
+        // 16种梯度，比只用2种(+x/-x)丰富得多
+        const gradients = [1, -1, 2, -2, 3, -3, 0.5, -0.5,
+                          1.5, -1.5, 0.75, -0.75, 2.5, -2.5, 0.25, -0.25];
+        return gradients[h] * x;
+    }
+
+    // 一维柏林噪声，输出范围约 -1 到 1
+    noise(x) {
+        const xi = Math.floor(x) & 255;
+        const xf = x - Math.floor(x);
+
+        const u = this.fade(xf);
+
+        const g0 = this.grad(this.perm[xi], xf);
+        const g1 = this.grad(this.perm[xi + 1], xf - 1);
+
+        return this.lerp(g0, g1, u);
+    }
+
+    // 分形布朗运动 (FBM) — 多层噪声叠加，更自然
+    fbm(x, octaves = 4, persistence = 0.5) {
+        let total = 0;
+        let amplitude = 1;
+        let frequency = 1;
+        let maxVal = 0;
+
+        for (let i = 0; i < octaves; i++) {
+            total += this.noise(x * frequency) * amplitude;
+            maxVal += amplitude;
+            amplitude *= persistence;
+            frequency *= 2;
+        }
+
+        return total / maxVal; // 归一化到 -1 ~ 1
+    }
+}
+
+// ===== 加密核心 =====
+const perlin = new PerlinNoise('street');
+
+function getOffset(position) {
+    // 取噪声值，映射到 0 ~ 94 的整数偏移
+    const noiseVal = perlin.fbm(position * 0.1); // 0.1控制曲线的"疏密"
+    // noiseVal 范围约 -1~1，映射到 0~94
+    const offset = Math.round((noiseVal + 1) / 2 * 94);
+    return ((offset % 95) + 95) % 95; // 确保 0-94
+}
+
+function encrypt() {
+    const seed = document.getElementById('seedInput').value;
+    const plain = document.getElementById('plainInput').value;
+    perlin.setSeed(seed);
+
+    let cipher = '';
+    const offsets = [];
+
+    for (let i = 0; i < plain.length; i++) {
+        const char = plain[i];
+        const idx = lib1.indexOf(char);
+        if (idx === -1) {
+            // 不在lib1中的字符原样保留（如中文）
+            cipher += char;
+            offsets.push('-');
+            continue;
+        }
+        const offset = getOffset(i);
+        const newIdx = (idx + offset) % 95;
+        cipher += lib1[newIdx];
+        offsets.push(offset);
+    }
+
+    document.getElementById('cipherOutput').textContent = cipher;
+    document.getElementById('noiseInfo').textContent =
+        '偏移量: [' + offsets.join(', ') + ']';
+    
+    drawCurve(plain.length);
+}
+
+function decrypt() {
+    const seed = document.getElementById('seedInput').value;
+    const cipher = document.getElementById('cipherOutput').textContent;
+    if (cipher === '-') return;
+    perlin.setSeed(seed);
+
+    let plain = '';
+
+    for (let i = 0; i < cipher.length; i++) {
+        const char = cipher[i];
+        const idx = lib1.indexOf(char);
+        if (idx === -1) {
+            plain += char;
+            continue;
+        }
+        const offset = getOffset(i);
+        const newIdx = ((idx - offset) % 95 + 95) % 95;
+        plain += lib1[newIdx];
+    }
+
+    document.getElementById('plainOutput').textContent = plain;
+}
+
+// ===== 曲线可视化 =====
+function drawCurve(charCount) {
+    const canvas = document.getElementById('noiseCanvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = canvas.offsetWidth * 2;
+    canvas.height = 300;
+    ctx.scale(2, 2);
+    const W = canvas.offsetWidth;
+    const H = 150;
+
+    ctx.clearRect(0, 0, W, H);
+
+    // 背景网格
+    ctx.strokeStyle = '#1a1a1a';
+    ctx.lineWidth = 0.5;
+    for (let y = 0; y <= H; y += 30) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+    }
+
+    // 画噪声曲线（完整）
+    const totalPoints = Math.max(charCount || 20, 50);
+    ctx.strokeStyle = '#333';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    for (let i = 0; i <= totalPoints * 10; i++) {
+        const x = (i / (totalPoints * 10)) * W;
+        const val = perlin.fbm(i * 0.01);
+        const y = H / 2 - val * (H / 2 - 10);
+        if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+
+    // 画取样点（每个字符的位置）
+    const count = charCount || 12;
+    ctx.strokeStyle = '#00ccff';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    for (let i = 0; i < count; i++) {
+        const noiseVal = perlin.fbm(i * 0.1);
+        const x = (i / count) * W * 0.9 + W * 0.05;
+        const y = H / 2 - noiseVal * (H / 2 - 10);
+        if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+
+    // 标记采样点
+    for (let i = 0; i < count; i++) {
+        const noiseVal = perlin.fbm(i * 0.1);
+        const x = (i / count) * W * 0.9 + W * 0.05;
+        const y = H / 2 - noiseVal * (H / 2 - 10);
+        
+        ctx.fillStyle = '#ff6600';
+        ctx.beginPath();
+        ctx.arc(x, y, 3, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 偏移量标注
+        const offset = getOffset(i);
+        ctx.fillStyle = '#555';
+        ctx.font = '9px monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText(offset, x, y - 8);
+    }
+
+    // 中线
+    ctx.strokeStyle = '#222';
+    ctx.lineWidth = 0.5;
+    ctx.setLineDash([4, 4]);
+    ctx.beginPath();
+    ctx.moveTo(0, H / 2);
+    ctx.lineTo(W, H / 2);
+    ctx.stroke();
+    ctx.setLineDash([]);
+}
+
+function updateCurve() {
+    const seed = document.getElementById('seedInput').value;
+    perlin.setSeed(seed);
+    drawCurve(20);
+}
+
+// 初始化
+window.onload = () => {
+    updateCurve();
+};
+</script>
+
+
+</body></html>

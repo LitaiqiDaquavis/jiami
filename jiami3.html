@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<!-- saved from url=(0040)http://106.53.183.85/asd-cms/jiami3.html -->
+<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Litaiqi_Daquavis 超级加密系统</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+            color: #e6e6e6;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 20px;
+            margin-bottom: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(0, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #00ff88;
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+            background: linear-gradient(90deg, #00ff88, #00bcd4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            color: #aaa;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .warning {
+            background-color: rgba(255, 193, 7, 0.2);
+            border: 1px solid #ffc107;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            color: #ffc107;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .section {
+            background: rgba(30, 30, 40, 0.8);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+        }
+
+        h2 {
+            color: #00ff88;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(0, 255, 136, 0.3);
+            font-size: 1.8rem;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #ccc;
+        }
+
+        textarea, input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 15px;
+            background: rgba(20, 20, 30, 0.9);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 8px;
+            color: #f0f0f0;
+            font-size: 1rem;
+            resize: vertical;
+            font-family: 'Courier New', monospace;
+            transition: all 0.3s;
+        }
+
+        textarea:focus, input:focus, select:focus {
+            outline: none;
+            border-color: #00ff88;
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+        }
+
+        textarea {
+            min-height: 120px;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .control-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .key-display {
+            font-family: 'Courier New', monospace;
+            color: #00ff88;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        button {
+            background: linear-gradient(to right, #00bcd4, #0097a7);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+
+        button:hover {
+            background: linear-gradient(to right, #0097a7, #007c91);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .encrypt-btn {
+            background: linear-gradient(to right, #00ff88, #00cc6a);
+        }
+
+        .encrypt-btn:hover {
+            background: linear-gradient(to right, #00cc6a, #00aa55);
+        }
+
+        .clear-btn {
+            background: linear-gradient(to right, #ff4444, #cc0000);
+        }
+
+        .clear-btn:hover {
+            background: linear-gradient(to right, #cc0000, #aa0000);
+        }
+
+        .result-container {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(20, 20, 30, 0.9);
+            border-radius: 8px;
+            border: 1px solid rgba(0, 255, 136, 0.1);
+        }
+
+        .result-label {
+            color: #aaa;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .result {
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            word-break: break-all;
+            color: #00ff88;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+            min-height: 40px;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .comparison-box {
+            padding: 15px;
+            background: rgba(20, 20, 30, 0.7);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .comparison-title {
+            color: #00bcd4;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .comparison-text {
+            font-family: 'Courier New', monospace;
+            color: #ccc;
+        }
+
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #777;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .controls, .comparison {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #333;
+            transition: .4s;
+            border-radius: 30px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: #00ff88;
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(30px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Litaiqi_Daquavis 超级加密系统</h1>
+            <p class="subtitle">增强版加密算法 - 带反转功能的多层保护</p>
+            <div class="warning">
+                ⚠️ 私人加密工具 - 防止隐私偷窥与密信传递
+            </div>
+        </header>
+
+        <div class="main-content">
+            <div class="section">
+                <h2>超级加密</h2>
+
+                <div class="controls">
+                    <div class="control-group">
+                        <label for="algorithm">加密算法模式:</label>
+                        <select id="algorithm">
+                            <option value="basic">基础算法(位置+密钥)</option>
+                            <option value="reverse" selected="">增强算法(位置+密钥+反转)</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="key">加密密钥(0-94):</label>
+                        <div class="control-row">
+                            <input type="number" id="key" class="key-input" min="0" max="94" value="1" step="1">
+                            <button id="generate-key-btn">随机密钥</button>
+                            <div>格式化:<span id="key-display" class="key-display">001</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="plaintext">输入要加密的文本:</label>
+                    <textarea id="plaintext" placeholder="输入你要加密的文本...">abc</textarea>
+                </div>
+
+                <div class="btn-group">
+                    <button id="encrypt-btn" class="encrypt-btn">加密文本</button>
+                    <button id="clear-encrypt" class="clear-btn">清空</button>
+                </div>
+
+                <div class="result-container">
+                    <div class="result-label">加密结果:</div>
+                    <div id="encrypted-result" class="result">gec001</div>
+                </div>
+
+                <div class="comparison">
+                    <div class="comparison-box">
+                        <div class="comparison-title">基础算法结果:</div>
+                        <div id="basic-result" class="comparison-text">ceg001</div>
+                    </div>
+                    <div class="comparison-box">
+                        <div class="comparison-title">增强算法结果:</div>
+                        <div id="reverse-result" class="comparison-text">gec001</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>解密</h2>
+
+                <div class="input-group">
+                    <label for="ciphertext">输入要解密的文本:</label>
+                    <textarea id="ciphertext" placeholder="输入你要解密的文本..."></textarea>
+                </div>
+
+                <div class="control-row">
+                    <label for="auto-detect">弱算法模式:</label>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="auto-detect" checked="">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+
+                <div class="btn-group">
+                    <button id="decrypt-btn" class="encrypt-btn">解密文本</button>
+                    <button id="clear-decrypt" class="clear-btn">清空</button>
+                </div>
+
+                <div class="result-container">
+                    <div class="result-label">解密结果:</div>
+                    <div id="decrypted-result" class="result">abc</div>
+                </div>
+            </div>
+
+        <footer>
+            <p>超级加密工具 © 2026 | 算法设计:Litaiqi_Daquavis</p>
+        </footer>
+    </div>
+
+    <script>
+        // 定义字符集
+        const charset = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+-=[]{}|;':\",./<>?`~ ";
+        const charsetSize = charset.length;
+
+        // 格式化密钥为三位数
+        function formatKey(key) {
+            let keyNum = parseInt(key) % charsetSize;
+            return keyNum.toString().padStart(3, '0');
+        }
+
+        // 基础加密算法(位置+密钥)
+        function encryptBasic(text, key) {
+            let result = "";
+            const keyNum = parseInt(key) % charsetSize;
+
+            for (let i = 0; i < text.length; i++) {
+                const char = text[i];
+                const position = i + 1;
+                const charIndex = charset.indexOf(char);
+
+                if (charIndex === -1) {
+                    result += char;
+                    continue;
+                }
+
+                let newIndex = charIndex + position + keyNum;
+                while (newIndex >= charsetSize) {
+                    newIndex -= charsetSize;
+                }
+                while (newIndex < 0) {
+                    newIndex += charsetSize;
+                }
+
+                result += charset[newIndex];
+            }
+
+            return result + formatKey(keyNum);
+        }
+
+        // 基础解密算法
+        function decryptBasic(ciphertext) {
+            if (ciphertext.length < 3) {
+                return {success: false, result: "密文太短"};
+            }
+
+            const keyStr = ciphertext.substring(ciphertext.length - 3);
+            const keyNum = parseInt(keyStr) % charsetSize;
+            const actualCipher = ciphertext.substring(0, ciphertext.length - 3);
+            let result = "";
+
+            for (let i = 0; i < actualCipher.length; i++) {
+                const char = actualCipher[i];
+                const position = i + 1;
+                const charIndex = charset.indexOf(char);
+
+                if (charIndex === -1) {
+                    result += char;
+                    continue;
+                }
+
+                let originalIndex = charIndex - position - keyNum;
+                while (originalIndex < 0) {
+                    originalIndex += charsetSize;
+                }
+
+                result += charset[originalIndex];
+            }
+
+            return {success: true, result: result, key: keyNum};
+        }
+
+        // 增强加密算法(位置+密钥+反转)
+        function encryptEnhanced(text, key) {
+            // 先用基础算法加密
+            const basicResult = encryptBasic(text, key);
+            // 去掉密钥部分
+            const cipherBody = basicResult.substring(0, basicResult.length - 3);
+            const keyPart = basicResult.substring(basicResult.length - 3);
+
+            // 反转密文正文
+            const reversedBody = cipherBody.split('').reverse().join('');
+
+            return reversedBody + keyPart;
+        }
+
+        // 增强解密算法
+        function decryptEnhanced(ciphertext) {
+            if (ciphertext.length < 3) {
+                return {success: false, result: "密文太短"};
+            }
+
+            const keyStr = ciphertext.substring(ciphertext.length - 3);
+            const keyNum = parseInt(keyStr) % charsetSize;
+            const reversedBody = ciphertext.substring(0, ciphertext.length - 3);
+
+            // 反转回来得到基础密文
+            const cipherBody = reversedBody.split('').reverse().join('');
+            const fullCipher = cipherBody + keyStr;
+
+            // 用基础算法解密
+            return decryptBasic(fullCipher);
+        }
+
+        // 自动检测算法模式
+        function detectAlgorithm(ciphertext) {
+            if (ciphertext.length < 3) return "basic";
+
+            const keyStr = ciphertext.substring(ciphertext.length - 3);
+            const keyNum = parseInt(keyStr) % charsetSize;
+            const cipherBody = ciphertext.substring(0, ciphertext.length - 3);
+
+            // 尝试用基础算法解密
+            const basicResult = decryptBasic(ciphertext);
+            if (basicResult.success) {
+                // 检查解密结果是否有意义(主要是可打印字符)
+                const plaintext = basicResult.result;
+                let validChars = 0;
+                for (let char of plaintext) {
+                    if (charset.indexOf(char) >= 0 || char === '\n' || char === ' ') {
+                        validChars++;
+                    }
+                }
+
+                // 如果大部分字符是有效的,可能使用基础算法
+                if (validChars / plaintext.length > 0.8) {
+                    return "basic";
+                }
+            }
+
+            // 否则尝试增强算法
+            return "reverse";
+        }
+
+        // 获取DOM元素
+        const plaintextInput = document.getElementById('plaintext');
+        const ciphertextInput = document.getElementById('ciphertext');
+        const keyInput = document.getElementById('key');
+        const algorithmSelect = document.getElementById('algorithm');
+        const keyDisplay = document.getElementById('key-display');
+        const encryptBtn = document.getElementById('encrypt-btn');
+        const decryptBtn = document.getElementById('decrypt-btn');
+        const generateKeyBtn = document.getElementById('generate-key-btn');
+        const encryptedResult = document.getElementById('encrypted-result');
+        const decryptedResult = document.getElementById('decrypted-result');
+        const basicResultDisplay = document.getElementById('basic-result');
+        const reverseResultDisplay = document.getElementById('reverse-result');
+        const autoDetectCheckbox = document.getElementById('auto-detect');
+        const clearEncryptBtn = document.getElementById('clear-encrypt');
+        const clearDecryptBtn = document.getElementById('clear-decrypt');
+
+        // 更新密钥显示
+        function updateKeyDisplay() {
+            const keyValue = parseInt(keyInput.value) || 0;
+            const formattedKey = formatKey(keyValue);
+            keyDisplay.textContent = formattedKey;
+        }
+
+        // 初始化
+        updateKeyDisplay();
+
+        // 密钥输入变化时更新显示
+        keyInput.addEventListener('input', updateKeyDisplay);
+
+        // 生成随机密钥
+        generateKeyBtn.addEventListener('click', function() {
+            const randomKey = Math.floor(Math.random() * charsetSize);
+            keyInput.value = randomKey;
+            updateKeyDisplay();
+        });
+
+        // 加密按钮事件
+        encryptBtn.addEventListener('click', function() {
+            const plaintext = plaintextInput.value;
+            if (plaintext.trim() === "") {
+                encryptedResult.textContent = "请输入要加密的文本";
+                return;
+            }
+
+            const key = parseInt(keyInput.value) || 0;
+            const algorithm = algorithmSelect.value;
+
+            let encrypted = "";
+            if (algorithm === "basic") {
+                encrypted = encryptBasic(plaintext, key);
+            } else {
+                encrypted = encryptEnhanced(plaintext, key);
+            }
+
+            encryptedResult.textContent = encrypted;
+
+            // 显示两种算法的结果对比
+            const basicEncrypted = encryptBasic(plaintext, key);
+            const enhancedEncrypted = encryptEnhanced(plaintext, key);
+            basicResultDisplay.textContent = basicEncrypted;
+            reverseResultDisplay.textContent = enhancedEncrypted;
+
+            // 自动填充到解密输入框
+            ciphertextInput.value = encrypted;
+        });
+
+        // 解密按钮事件
+        decryptBtn.addEventListener('click', function() {
+            const ciphertext = ciphertextInput.value;
+            if (ciphertext.trim() === "") {
+                decryptedResult.textContent = "请输入要解密的文本";
+                return;
+            }
+
+            let algorithm = algorithmSelect.value;
+
+            // 如果启用自动检测,尝试检测算法
+            if (autoDetectCheckbox.checked) {
+                const detectedAlgorithm = detectAlgorithm(ciphertext);
+                algorithm = detectedAlgorithm;
+            }
+
+            let result;
+            if (algorithm === "basic") {
+                result = decryptBasic(ciphertext);
+            } else {
+                result = decryptEnhanced(ciphertext);
+            }
+
+            if (result.success) {
+                decryptedResult.textContent = result.result;
+                decryptedResult.style.color = "#00ff88";
+
+                // 更新密钥显示
+                keyInput.value = result.key;
+                updateKeyDisplay();
+            } else {
+                decryptedResult.textContent = "解密失败: " + result.result;
+                decryptedResult.style.color = "#ff4444";
+            }
+        });
+
+        // 清空按钮事件
+        clearEncryptBtn.addEventListener('click', function() {
+            plaintextInput.value = "";
+            encryptedResult.textContent = "等待加密...";
+        });
+
+        clearDecryptBtn.addEventListener('click', function() {
+            ciphertextInput.value = "";
+            decryptedResult.textContent = "等待解密...";
+        });
+
+        // 页面加载时示例
+        window.addEventListener('load', function() {
+            const exampleText = "abc";
+            const exampleKey = 1;
+
+            plaintextInput.value = exampleText;
+            keyInput.value = exampleKey;
+            updateKeyDisplay();
+
+            // 计算示例
+            const basicEncrypted = encryptBasic(exampleText, exampleKey);
+            const enhancedEncrypted = encryptEnhanced(exampleText, exampleKey);
+
+            encryptedResult.textContent = enhancedEncrypted;
+            basicResultDisplay.textContent = basicEncrypted;
+            reverseResultDisplay.textContent = enhancedEncrypted;
+
+            // 填充解密框
+            ciphertextInput.value = enhancedEncrypted;
+
+            // 解密示例
+            const decrypted = decryptEnhanced(enhancedEncrypted);
+            if (decrypted.success) {
+                decryptedResult.textContent = decrypted.result;
+            }
+        });
+
+
+    </script>
+
+</div></body></html>
