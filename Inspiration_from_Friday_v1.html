@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<!-- saved from url=(0060)http://106.53.183.85/asd-cms/Inspiration_from_Friday_v1.html -->
+<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Litaiqi_Daquavis 加密网站</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e6e6e6;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 20px;
+            margin-bottom: 20px;
+            background-color: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        h1 {
+            color: #4CAF50;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+        
+        .subtitle {
+            color: #aaa;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+        
+        .warning {
+            background-color: rgba(255, 193, 7, 0.15);
+            border-left: 4px solid #ffc107;
+            padding: 12px 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+        
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        .section {
+            background-color: rgba(40, 40, 60, 0.8);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        h2 {
+            color: #4CAF50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 1.8rem;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #ccc;
+        }
+        
+        textarea, input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            background-color: rgba(20, 20, 30, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: #f0f0f0;
+            font-size: 1rem;
+            resize: vertical;
+            font-family: 'Courier New', monospace;
+        }
+        
+        textarea {
+            min-height: 120px;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        button {
+            background: linear-gradient(to right, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+        
+        button:hover {
+            background: linear-gradient(to right, #45a049, #3d8b40);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .clear-btn {
+            background: linear-gradient(to right, #f44336, #d32f2f);
+        }
+        
+        .clear-btn:hover {
+            background: linear-gradient(to right, #d32f2f, #b71c1c);
+        }
+        
+        .result-container {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: rgba(20, 20, 30, 0.9);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .result-label {
+            color: #aaa;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        .result {
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            word-break: break-all;
+            color: #4CAF50;
+        }
+        
+
+
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #777;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            width: 100%;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                gap: 20px;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Litaiqi_Daquavis 加密系统</h1>
+            <p class="subtitle">高级自定义加密算法 - 保护你的私人信息</p>
+            <div class="warning">
+                ⚠️ 警告：这是一个私人加密工具，请不要让他人偷窥到你的加密信息。加密强度有限，请勿用于高度敏感信息。
+            </div>
+        </header>
+        
+        <div class="main-content">
+            <div class="section">
+                <h2>加密</h2>
+                <div class="input-group">
+                    <label for="plaintext">输入要加密的文本（仅限英文、数字和符号）：</label>
+                    <textarea id="plaintext" placeholder="输入你要加密的文本..."></textarea>
+                </div>
+                <div class="btn-group">
+                    <button id="encrypt-btn">加密文本</button>
+                    <button id="clear-encrypt" class="clear-btn">清空</button>
+                </div>
+                <div class="result-container">
+                    <div class="result-label">加密结果：</div>
+                    <div id="encrypted-result" class="result" style="color: rgb(76, 175, 80);">Igopt $wAvo- fhj</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>解密</h2>
+                <div class="input-group">
+                    <label for="ciphertext">输入要解密的文本：</label>
+                    <textarea id="ciphertext" placeholder="输入你要解密的文本..."></textarea>
+                </div>
+                <div class="btn-group">
+                    <button id="decrypt-btn">解密文本</button>
+                    <button id="clear-decrypt" class="clear-btn">清空</button>
+                </div>
+                <div class="result-container">
+                    <div class="result-label">解密结果：</div>
+                    <div id="decrypted-result" class="result" style="color: rgb(76, 175, 80);">Hello World! 123</div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>私人加密工具 © 2026 | 算法设计：Litaiqi_Daquavis</p>
+        </footer>
+    </div>
+
+    <script>
+        // 定义字符集（按照要求的顺序）
+        const charset = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+-=[]{}|;':\",./<>?`~";
+        
+        
+        // 加密函数
+        function encrypt(text) {
+            let result = "";
+            for (let i = 0; i < text.length; i++) {
+                const char = text[i];
+                const position = i + 1; // 第n个字符，n从1开始
+                const charIndex = charset.indexOf(char);
+                
+                // 如果字符不在字符集中，直接添加到结果
+                if (charIndex === -1) {
+                    result += char;
+                    continue;
+                }
+                
+                // 计算新索引
+                let newIndex = charIndex + position;
+                
+                // 如果大于字符集长度，减去字符集长度
+                while (newIndex >= charset.length) {
+                    newIndex -= charset.length;
+                }
+                
+                result += charset[newIndex];
+            }
+            return result;
+        }
+        
+        // 解密函数
+        function decrypt(text) {
+            let result = "";
+            for (let i = 0; i < text.length; i++) {
+                const char = text[i];
+                const position = i + 1; // 第n个字符，n从1开始
+                const charIndex = charset.indexOf(char);
+                
+                // 如果字符不在字符集中，直接添加到结果
+                if (charIndex === -1) {
+                    result += char;
+                    continue;
+                }
+                
+                // 计算原始索引
+                let originalIndex = charIndex - position;
+                
+                // 如果为负数，加上字符集长度
+                while (originalIndex < 0) {
+                    originalIndex += charset.length;
+                }
+                
+                result += charset[originalIndex];
+            }
+            return result;
+        }
+        
+        // 获取DOM元素
+        const plaintextInput = document.getElementById('plaintext');
+        const ciphertextInput = document.getElementById('ciphertext');
+        const encryptBtn = document.getElementById('encrypt-btn');
+        const decryptBtn = document.getElementById('decrypt-btn');
+        const encryptedResult = document.getElementById('encrypted-result');
+        const decryptedResult = document.getElementById('decrypted-result');
+        const clearEncryptBtn = document.getElementById('clear-encrypt');
+        const clearDecryptBtn = document.getElementById('clear-decrypt');
+        
+        // 加密按钮事件
+        encryptBtn.addEventListener('click', function() {
+            const plaintext = plaintextInput.value;
+            if (plaintext.trim() === "") {
+                encryptedResult.textContent = "请输入要加密的文本";
+                encryptedResult.style.color = "#f44336";
+                return;
+            }
+            
+            const encrypted = encrypt(plaintext);
+            encryptedResult.textContent = encrypted;
+            encryptedResult.style.color = "#4CAF50";
+            
+            // 自动填充到解密输入框
+            ciphertextInput.value = encrypted;
+        });
+        
+        // 解密按钮事件
+        decryptBtn.addEventListener('click', function() {
+            const ciphertext = ciphertextInput.value;
+            if (ciphertext.trim() === "") {
+                decryptedResult.textContent = "请输入要解密的文本";
+                decryptedResult.style.color = "#f44336";
+                return;
+            }
+            
+            const decrypted = decrypt(ciphertext);
+            decryptedResult.textContent = decrypted;
+            decryptedResult.style.color = "#4CAF50";
+            
+            // 自动填充到加密输入框
+            plaintextInput.value = decrypted;
+        });
+        
+        // 清空加密区域
+        clearEncryptBtn.addEventListener('click', function() {
+            plaintextInput.value = "";
+            encryptedResult.textContent = "等待加密...";
+            encryptedResult.style.color = "#4CAF50";
+        });
+        
+        // 清空解密区域
+        clearDecryptBtn.addEventListener('click', function() {
+            ciphertextInput.value = "";
+            decryptedResult.textContent = "等待解密...";
+            decryptedResult.style.color = "#4CAF50";
+        });
+        
+        // 示例加密文本
+        window.addEventListener('load', function() {
+            const exampleText = "Hello World! 123";
+            plaintextInput.value = exampleText;
+            
+            // 自动加密示例文本
+            const encryptedExample = encrypt(exampleText);
+            encryptedResult.textContent = encryptedExample;
+            encryptedResult.style.color = "#4CAF50";
+            
+            // 显示在解密区域
+            ciphertextInput.value = encryptedExample;
+            
+            // 解密示例文本
+            const decryptedExample = decrypt(encryptedExample);
+            decryptedResult.textContent = decryptedExample;
+            decryptedResult.style.color = "#4CAF50";
+        });
+        // 添加字符集验证功能
+        plaintextInput.addEventListener('input', function() {
+            const text = plaintextInput.value;
+            let invalidChars = [];
+            
+            for (let char of text) {
+                if (charset.indexOf(char) === -1 && char !== ' ' && char !== '\n') {
+                    if (!invalidChars.includes(char)) {
+                        invalidChars.push(char);
+                    }
+                }
+            }
+            
+            if (invalidChars.length > 0) {
+                plaintextInput.style.borderColor = "#ff9800";
+                plaintextInput.title = "包含不支持加密的字符: " + invalidChars.join(', ');
+            } else {
+                plaintextInput.style.borderColor = "";
+                plaintextInput.title = "";
+            }
+        });
+    </script>
+</body>
+</html>
