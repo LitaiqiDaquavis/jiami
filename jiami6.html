@@ -3,234 +3,97 @@
 <html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Litaiqi_Daquavis 旋转库加密系统 v6</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
-            color: #e6e6e6; min-height: 100vh; padding: 20px;
-            display: flex; flex-direction: column; align-items: center;
-        }
-        .container { max-width: 1200px; width: 100%; margin: 0 auto; }
-        header {
-            text-align: center; padding: 30px 20px; margin-bottom: 20px;
-            background: rgba(0,0,0,0.5); border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            border: 1px solid rgba(0,255,255,0.1); backdrop-filter: blur(10px);
-        }
-        h1 {
-            color: #00ff88; font-size: 2.8rem; margin-bottom: 10px;
-            text-shadow: 0 0 10px rgba(0,255,136,0.5);
-            background: linear-gradient(90deg, #00ff88, #00bcd4);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-        .subtitle { color: #aaa; font-size: 1.2rem; margin-bottom: 20px; }
-        .version-badge {
-            display: inline-block; background: linear-gradient(90deg, #ff6b6b, #ee5a24);
-            color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem;
-            font-weight: bold; margin-bottom: 15px;
-        }
-        .warning {
-            background-color: rgba(255,193,7,0.2); border: 1px solid #ffc107;
-            padding: 12px 20px; border-radius: 8px; margin-bottom: 20px;
-            font-size: 0.95rem; color: #ffc107;
-        }
-        .main-content { display: flex; flex-direction: column; gap: 30px; }
-        .section {
-            background: rgba(30,30,40,0.8); padding: 25px; border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-            border: 1px solid rgba(0,255,255,0.1); backdrop-filter: blur(5px);
-        }
-        h2 {
-            color: #00ff88; margin-bottom: 20px; padding-bottom: 10px;
-            border-bottom: 1px solid rgba(0,255,136,0.3); font-size: 1.8rem;
-        }
-        .input-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; font-weight: 600; color: #ccc; }
-        textarea, input[type="text"], input[type="number"], select {
-            width: 100%; padding: 15px; background: rgba(20,20,30,0.9);
-            border: 1px solid rgba(0,255,136,0.2); border-radius: 8px;
-            color: #f0f0f0; font-size: 1rem; resize: vertical;
-            font-family: 'Courier New', monospace; transition: all 0.3s;
-        }
-        textarea:focus, input:focus, select:focus {
-            outline: none; border-color: #00ff88;
-            box-shadow: 0 0 10px rgba(0,255,136,0.3);
-        }
-        textarea { min-height: 120px; }
-        .controls-grid {
-            display: grid; grid-template-columns: 1fr 1fr;
-            gap: 20px; margin-bottom: 20px;
-        }
-        .control-group { display: flex; flex-direction: column; gap: 10px; }
-        .key-range { font-size: 0.9rem; color: #888; }
-        .btn-group { display: flex; gap: 15px; margin-top: 20px; }
-        button {
-            background: linear-gradient(to right, #00bcd4, #0097a7);
-            color: white; border: none; padding: 12px 25px; border-radius: 8px;
-            cursor: pointer; font-size: 1rem; font-weight: 600;
-            transition: all 0.3s ease; flex: 1;
-        }
-        button:hover {
-            background: linear-gradient(to right, #0097a7, #007c91);
-            transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-        button:active { transform: translateY(0); }
-        .encrypt-btn { background: linear-gradient(to right, #00ff88, #00cc6a); }
-        .encrypt-btn:hover { background: linear-gradient(to right, #00cc6a, #00aa55); }
-        .clear-btn { background: linear-gradient(to right, #ff4444, #cc0000); }
-        .clear-btn:hover { background: linear-gradient(to right, #cc0000, #aa0000); }
-        .result-container {
-            margin-top: 20px; padding: 20px; background: rgba(20,20,30,0.9);
-            border-radius: 8px; border: 1px solid rgba(0,255,136,0.1);
-        }
-        .result-label { color: #aaa; font-size: 0.9rem; margin-bottom: 5px; }
-        .result {
-            font-family: 'Courier New', monospace; font-size: 1.1rem;
-            word-break: break-all; color: #00ff88; padding: 10px;
-            background: rgba(0,0,0,0.3); border-radius: 5px; min-height: 40px;
-        }
-        .lib-preview {
-            margin-top: 20px; padding: 15px; background: rgba(0,0,0,0.3);
-            border-radius: 8px; border-left: 4px solid #00bcd4;
-        }
-        .lib-title { color: #00bcd4; font-weight: bold; margin-bottom: 5px; }
-        .lib-content {
-            font-family: 'Courier New', monospace; font-size: 0.9rem;
-            word-break: break-all; color: #ccc;
-        }
-        .status-info {
-            display: grid; grid-template-columns: repeat(3, 1fr);
-            gap: 15px; margin-top: 20px;
-        }
-        .status-item {
-            text-align: center; padding: 10px;
-            background: rgba(0,0,0,0.2); border-radius: 8px;
-        }
-        .
-
-status-label { color: #aaa; font-size: 0.9rem; margin-bottom: 5px; }
-        .status-value {
-            color: #00ff88; font-family: 'Courier New', monospace;
-            font-weight: bold; font-size: 1.2rem;
-        }
-        .new-feature {
-            background: rgba(255,107,107,0.1); border: 1px solid rgba(255,107,107,0.3);
-            border-radius: 8px; padding: 15px; margin-top: 15px;
-        }
-        .new-feature-title { color: #ff6b6b; font-weight: bold; margin-bottom: 8px; font-size: 0.95rem; }
-        .new-feature-desc { color: #bbb; font-size: 0.9rem; line-height: 1.6; }
-        footer {
-            text-align: center; margin-top: 40px; padding: 20px;
-            color: #777; font-size: 0.9rem;
-            border-top: 1px solid rgba(255,255,255,0.05); width: 100%;
-        }
-
-@media (max-width: 768px) {
-            .controls-grid, .status-info { grid-template-columns: 1fr; }
-            .btn-group { flex-direction: column; }
-        }
-    </style>
+    <title>甲醚</title>
+    <link rel="stylesheet" href="jiami13.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>Litaiqi_Daquavis 的加密与解密系统</h1>
-            <div class="version-badge">v6 - 雪崩效应层</div>
-            <p class="subtitle">"请输入文本"</p>
-            <div class="warning">⚠️ 为保障信息安全，即使该算法的组合可达到10^444以上，也请勿让他人偷窥到您的屏幕，切勿泄露明文信息</div>
+            <h1>甲醚</h1>
+            <div class="version-badge">v6 - Avalanche Effect Layer</div>
+            <p class="subtitle">"Enter text"</p>
+            <div class="warning">⚠️ To protect information security, do not let others view your screen or expose plaintext information.</div>
         </header>
         <div class="main-content">
             <div class="section">
-                <h2>加密</h2>
-                <div class="new-feature">
-                    <div class="new-feature-title">🆕 v6 新增：雪崩效应层（列混合）</div>
-                    <div class="new-feature-desc">
-                        三重库加密后，每2个字符配对，第二位编码与第一位编码相加取模。<br>
-
-改变1个明文字符 → 密文产生连锁变化。<br>
-                        结合v5位置打乱，实现AES四大步骤中的三步半。
-                    </div>
-                </div>
+                <h2>Encrypt</h2>
                 <div class="controls-grid">
                     <div class="control-group">
-                        <label for="key">加密密钥（0-94）：</label>
+                        <label for="key">Encryption Key (0-94):</label>
                         <input type="number" id="key" class="key-input" min="0" max="94" value="1" step="1">
-                        <div class="key-range">范围：0-94</div>
+                        <div class="key-range">Range:0-94</div>
                     </div>
                     <div class="control-group">
-                        <label for="lib-status">库状态码（6位数字）：</label>
-                        <input type="text" id="lib-status" maxlength="6" value="000000" placeholder="如：012345">
-                        <div class="key-range">格式：库1转数(2位) + 库2转数(2位) + 库3转数(2位)</div>
+                        <label for="lib-status">Library state code (6-digit number):</label>
+                        <input type="text" id="lib-status" maxlength="6" value="000000" placeholder="e.g. 012345">
+                        <div class="key-range">Format:Lib 1 rotations (2 digits) + Lib 2 rotations (2 digits) + Lib 3 rotations (2 digits)</div>
 
 </div>
                 </div>
                 <div class="input-group">
-                    <label for="plaintext">输入要加密的文本：</label>
-                    <textarea id="plaintext" placeholder="输入你要加密的文本...">Made by Litaiqi_Daquavis</textarea>
+                    <label for="plaintext">Text to encrypt:</label>
+                    <textarea id="plaintext" placeholder="Enter the text to encrypt...">Made by Litaiqi_Daquavis</textarea>
                 </div>
                 <div class="btn-group">
-                    <button id="encrypt-btn" class="encrypt-btn">加密文本</button>
-                    <button id="clear-encrypt" class="clear-btn">清空</button>
+                    <button id="encrypt-btn" class="encrypt-btn">Encrypt Text</button>
+                    <button id="clear-encrypt" class="clear-btn">Clear</button>
                 </div>
                 <div class="result-container">
-                    <div class="result-label">加密结果（纯密文）：</div>
+                    <div class="result-label">Encryption Result (ciphertext only):</div>
                     <div id="encrypted-result" class="result">NyMQOyrl5CqfMXr&gt;SuS$-EjB|PCPl_ 1;+ Z/TY\|RQZnZuyED:3X30 3D-[\U\gWBiihhiuiFM[/YU_b}Z$==GO)ugql1o20"&lt;Wp WZ OlOH%Cwf)KlN_-+-|McCj)dUM&amp;Qt&lt;?Ut:YZ&gt;}b;UX#aENC`Uodh1q7&gt;/F"IWF(ndho%sJZZu2T:,,1C}?{G-yONryQl58qXC&gt;rMSuM$jS|BEPCfl1P+;  Z-T|/QR\Zn_uDZ3:EX3Y -0\[DU\yWighhiiu3F/iUY[_bBZ=}OG=)uMqog021"&lt;$pZWO WlOl%fHK)wlN -|_cM-CjCd&amp;)tQM&lt;?+tZU}&gt;Yb;UXEUCNa`U:dqo&gt;71/F#I("dnFhohsZ%2uZT:W,},{?CG-JOyylQr581XrqSM&gt;uMNjB$PE|CfC1;l  +Z-S|RTZ\Qn_PD:uXE33Y/-[ UD\\yZihWiihu30/YF_[UbBg=GZ)=OuMio2q"10&lt;$}Z plWOOlgf)%lwKN W|M-C-cjCH</div>
                 </div>
                 <div class="result-container" style="border: 1px solid rgba(255,170,0,0.3);">
-                    <div class="result-label">🔑 密钥信息（必须与密文一起保存，解密时需要）：</div>
-                    <div id="key-info-result" class="result" style="color: #ffaa00;">密钥: 1 | 状态码: 415415</div>
-                    <div style="color: #666; font-size: 0.8rem; margin-top: 5px; font-style: italic;">⚠️ 丢失密钥信息将无法解密！</div>
+                    <div class="result-label">🔑 Key info (must be saved with the ciphertext and is required for decryption):</div>
+                    <div id="key-info-result" class="result" style="color: #ffaa00;">Key: 1 | State code: 415415</div>
+                    <div style="color: #666; font-size: 0.8rem; margin-top: 5px; font-style: italic;">⚠️ Losing key info will make decryption impossible！</div>
                 </div>
                 <div class="status-info">
-                    <div class="status-item"><div class="status-label">库1当前转数</div><div id="lib1-rotations" class="status-value">12</div></div>
-                    <div class="status-item"><div class="status-label">库2当前转数</div><div id="lib2-rotations" class="status-value">12</div></div>
-                    <div class="status-item"><div class="status-label">库3当前转数</div><div id="lib3-rotations" class="status-value">12</div></div>
+                    <div class="status-item"><div class="status-label">Lib 1current rotations</div><div id="lib1-rotations" class="status-value">12</div></div>
+                    <div class="status-item"><div class="status-label">Lib 2current rotations</div><div id="lib2-rotations" class="status-value">12</div></div>
+                    <div class="status-item"><div class="status-label">Lib 3current rotations</div><div id="lib3-rotations" class="status-value">12</div></div>
                 </div>
             </div>
             <div class="section">
-                <h2>解密</h2>
+                <h2>Decrypt</h2>
                 <div class="input-group">
-                    <label for="ciphertext">输入要解密的文本：</label>
-                    <textarea id="ciphertext" placeholder="输入你要解密的文本..."></textarea>
+                    <label for="ciphertext">Text to decrypt:</label>
+                    <textarea id="ciphertext" placeholder="Enter the text to decrypt..."></textarea>
                 </div>
                 <div class="controls-grid">
                     <div class="control-group">
-                        <label for="decrypt-key">解密密钥（0-94）：</label>
+                        <label for="decrypt-key">Decryption Key (0-94):</label>
                         <input type="number" id="decrypt-key" min="0" max="94" value="1" step="1">
-                        <div class="key-range">加密时使用的数字密钥</div>
+                        <div class="key-range">Numeric key used during encryption</div>
                     </div>
                     <div class="control-group">
-                        <label for="decrypt-state">解密状态码（6位）：</label>
-                        <input type="text" id="decrypt-state" maxlength="6" value="" placeholder="加密输出的状态码">
-                        <div class="key-range">加密输出的密钥信息中的6位状态码</div>
+                        <label for="decrypt-state">Decryption state code (6 digits):</label>
+                        <input type="text" id="decrypt-state" maxlength="6" value="" placeholder="State code from encryption output">
+                        <div class="key-range">6-digit state code from encryption key info</div>
                     </div>
                 </div>
                 <div class="btn-group">
-                    <button id="decrypt-btn" class="encrypt-btn">解密文本</button>
-
-<button id="clear-decrypt" class="clear-btn">清空</button>
+                    <button id="decrypt-btn" class="encrypt-btn">Decrypt Text</button>
+                    <button id="clear-decrypt" class="clear-btn">Clear</button>
                 </div>
                 <div class="result-container">
-                    <div class="result-label">解密结果：</div>
-                    <div id="decrypted-result" class="result" style="color: rgb(0, 255, 136);">111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111</div>
+                    <div class="result-label">Decryption Result:</div>
+                    <div id="decrypted-result" class="result"></div>
                 </div>
                 <div class="status-info">
-                    <div class="status-item"><div class="status-label">检测到库1转数</div><div id="detected-lib1" class="status-value">41</div></div>
-                    <div class="status-item"><div class="status-label">检测到库2转数</div><div id="detected-lib2" class="status-value">54</div></div>
-                    <div class="status-item"><div class="status-label">检测到库3转数</div><div id="detected-lib3" class="status-value">15</div></div>
+                    <div class="status-item"><div class="status-label">Detected Lib 1 rotations</div><div id="detected-lib1" class="status-value">41</div></div>
+                    <div class="status-item"><div class="status-label">Detected Lib 2 rotations</div><div id="detected-lib2" class="status-value">54</div></div>
+                    <div class="status-item"><div class="status-label">Detected Lib 3 rotations</div><div id="detected-lib3" class="status-value">15</div></div>
                 </div>
 
 </div>
             <div class="section">
-                <h2>字符库信息</h2>
-                <div class="lib-preview"><div class="lib-title">库1（原始库，长度：95）：</div><div id="lib1-preview" class="lib-content">0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&amp;*()_+-=[]{}|;':\",./&lt;&gt;?`~ </div></div>
-                <div class="lib-preview"><div class="lib-title">库2（替换库1，长度：95）：</div><div id="lib2-preview" class="lib-content">1029384756qpwoeirutyalskdjfhgzmxncbvQPWOEIRUTYALSKDJFHGZMXNCBV!)@(#*$&amp;%^_+-={|}[]\:";'&lt;?&gt;,/.~` </div></div>
-                <div class="lib-preview"><div class="lib-title">库3（替换库2，长度：95）：</div><div id="lib3-preview" class="lib-content">0192837465pqowieurytlaksjdhfgmznxbcvPQOWIEURYTLAKSJDHFGMZNXBCV)!(@*#&amp;$^%+_=-|{}\][":';?&lt;&gt;/,.~` </div></div>
+                <h2>Character Library Info</h2>
+                <div class="lib-preview"><div class="lib-title">Lib 1 (original library,length:95):</div><div id="lib1-preview" class="lib-content">0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&amp;*()_+-=[]{}|;':\",./&lt;&gt;?`~ </div></div>
+                <div class="lib-preview"><div class="lib-title">Lib 2 (substitutionLib 1,length:95):</div><div id="lib2-preview" class="lib-content">1029384756qpwoeirutyalskdjfhgzmxncbvQPWOEIRUTYALSKDJFHGZMXNCBV!)@(#*$&amp;%^_+-={|}[]\:";'&lt;?&gt;,/.~` </div></div>
+                <div class="lib-preview"><div class="lib-title">Lib 3 (substitutionLib 2,length:95):</div><div id="lib3-preview" class="lib-content">0192837465pqowieurytlaksjdhfgmznxbcvPQOWIEURYTLAKSJDHFGMZNXBCV)!(@*#&amp;$^%+_=-|{}\][":';?&lt;&gt;/,.~` </div></div>
             </div>
         </div>
-        <footer><p>旋转库加密工具 v6 © 2026 | 算法设计：Litaiqi_Daquavis | 三重旋转库 + 雪崩混合 + 位置打乱</p></footer>
+        <footer><p>Rotating Library Encryption Tool v6 © 2026 | Algorithm Design:Litaiqi_Daquavis | Triple rotating libraries + avalanche mixing + position shuffle</p></footer>
     </div>
     <script>
         var lib1Original = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+-=[]{}|;':\\\",./<>?`~ ";
@@ -258,7 +121,7 @@ test(code)) return { lib1Rot: 0, lib2Rot: 0, lib3Rot: 0 };
             return lib.substring(rotations) + lib.substring(0, rotations);
         }
 
-        // ===== v6 雪崩效应层 =====
+        // ===== v6 Avalanche Effect Layer =====
         function avalancheEncrypt(text) {
             var chars = text.split('');
             var result = chars.slice();
@@ -288,7 +151,7 @@ test(code)) return { lib1Rot: 0, lib2Rot: 0, lib3Rot: 0 };
             return result.join('');
         }
 
-        // ===== v5 位置打乱层 =====
+        // ===== v5 position shufflelayer =====
         function shufflePositions(text) {
             var chars = text.split('');
             var smallGroups = [];
@@ -339,7 +202,7 @@ for (var i = 0; i < bigGroups.length; i++) {
             return result.join('');
         }
 
-        // ===== 三重旋转库加密 =====
+        // ===== Triple Rotating Library Encryption =====
         function encryptEnhancedWithRotatingLibs(text, key, initialStateCode) {
             var initState = parseLibStatusCode(initialStateCode);
             var lib1 = rotateLib(lib1Original, initState.lib1Rot);
@@ -384,7 +247,7 @@ lib2RotationCount = 0;
                     }
                 }
             }
-            // v6流程：三重库加密 → 雪崩混合 → 位置打乱 → 倒放 → 加状态码
+            // process flow
             var avalanched = avalancheEncrypt(result);
             var shuffled = shufflePositions(avalanched);
             var reversed = shuffled.split('').reverse().join('');
@@ -392,10 +255,10 @@ lib2RotationCount = 0;
             return { ciphertext: reversed, stateCode: finalStateCode, finalState: { lib1Rot: lib1Rotations, lib2Rot: lib2Rotations, lib3Rot: lib3Rotations } };
         }
 
-        // ===== 三重旋转库解密 =====
+        // ===== Triple rotating librariesDecrypt =====
         function decryptEnhancedWithRotatingLibs(ciphertext, key, stateCode) {
             var finalState = parseLibStatusCode(stateCode);
-            // v6逆流程：倒放 → 逆位置打乱 → 逆雪崩 → 三重库解密
+            // process flow
             var reversed = ciphertext.split('').reverse().join('');
             var unshuffled = unshufflePositions(reversed);
             var unavalanched = avalancheDecrypt(unshuffled);
@@ -488,12 +351,12 @@ clampLibStatusInput() {
         }
         function doEncryptUI() {
             var plaintext = plaintextInput.value;
-            if (plaintext.trim() === "") { encryptedResult.textContent = "请输入要加密的文本"; return; }
+            if (plaintext.trim() === "") { encryptedResult.textContent = "Please enter text to encrypt"; return; }
             var key = parseInt(keyInput.value) || 0;
             var libStatus = libStatusInput.value.padEnd(6, '0').substring(0, 6);
             var result = encryptEnhancedWithRotatingLibs(plaintext, key, libStatus);
             encryptedResult.textContent = result.ciphertext;
-            keyInfoEl.textContent = "密钥: " + key + " | 状态码: " + result.stateCode;
+            keyInfoEl.textContent = "Key: " + key + " | State code: " + result.stateCode;
             lib1RotationsDisplay.textContent = formatLibRotation(result.finalState.lib1Rot);
             lib2RotationsDisplay.textContent = formatLibRotation(result.finalState.lib2Rot);
             lib3RotationsDisplay.textContent = formatLibRotation(result.finalState.lib3Rot);
@@ -507,13 +370,13 @@ clampLibStatusInput() {
         }
         function doDecryptUI() {
             var ciphertext = ciphertextInput.value;
-            if (ciphertext.trim() === "") { decryptedResult.textContent = "请输入要解密的文本"; return; }
+            if (ciphertext.trim() === "") { decryptedResult.textContent = "Please enter text to decrypt"; return; }
             var key = parseInt(decryptKeyInput.value) || 0;
             var stateCode = decryptStateInput.value.padEnd(6, '0').substring(0, 6);
             var result = decryptEnhancedWithRotatingLibs(ciphertext, key, stateCode);
             if (result.success) {
                 decryptedResult.textContent = result.result;
-                decryptedResult.style.color = "#00ff88";
+                decryptedResult.style.color = "#ffd166";
                 var isc = generateLibStatusCode(result.initialState.lib1Rot, result.initialState.lib2Rot, result.initialState.lib3Rot);
                 libStatusInput.value =
 
@@ -523,7 +386,7 @@ isc;
                 detectedLib2Display.textContent = formatLibRotation(result.finalState.lib2Rot);
                 detectedLib3Display.textContent = formatLibRotation(result.finalState.lib3Rot);
             } else {
-                decryptedResult.textContent = "解密失败: " + result.result;
+                decryptedResult.textContent = "Decryption failed: " + result.result;
                 decryptedResult.style.color = "#ff4444";
             }
         }
@@ -531,8 +394,8 @@ isc;
         document.getElementById('decrypt-btn').addEventListener('click', doDecryptUI);
         document.getElementById('clear-encrypt').addEventListener('click', function() { plaintextInput.value = ""; encryptedResult.textContent =
 
-"等待加密..."; });
-        document.getElementById('clear-decrypt').addEventListener('click', function() { ciphertextInput.value = ""; decryptedResult.textContent = "等待解密..."; });
+"Waiting to encrypt..."; });
+        document.getElementById('clear-decrypt').addEventListener('click', function() { ciphertextInput.value = ""; decryptedResult.textContent = "Waiting to decrypt..."; });
         keyInput.addEventListener('input', clampKeyInput);
         keyInput.addEventListener('change', clampKeyInput);
         decryptKeyInput.addEventListener('input', function() { var v = parseInt(decryptKeyInput.value) || 0; if (v < 0) v = 0; if (v > 94) v = 94; decryptKeyInput.value = v; });

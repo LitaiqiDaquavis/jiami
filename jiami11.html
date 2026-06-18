@@ -2,288 +2,164 @@
 <!-- saved from url=(0037)http://106.53.183.85/asd-cms/v11.html -->
 <html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Litaiqi_Daquavis 加密系统 v11</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
-            color: #e6e6e6; min-height: 100vh; padding: 20px;
-            display: flex; flex-direction: column; align-items: center;
-        }
-        .container { max-width: 1200px; width: 100%; margin: 0 auto; }
-        header {
-            text-align: center; padding: 30px 20px; margin-bottom: 20px;
-            background: rgba(0,0,0,0.5); border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            border: 1px solid rgba(0,255,255,0.1); backdrop-filter: blur(10px);
-        }
-        h1 {
-            color: #00ff88; font-size: 2.8rem; margin-bottom: 10px;
-            text-shadow: 0 0 10px rgba(0,255,136,0.5);
-            background: linear-gradient(90deg, #00ff88, #00bcd4);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-        .subtitle { color: #aaa; font-size: 1.2rem; margin-bottom: 20px; }
-        .version-badge {
-            display: inline-block; background: linear-gradient(90deg, #ff6b6b, #ee5a24);
-            color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem;
-            font-weight: bold; margin-bottom: 15px;
-        }
-        .warning {
-            background-color: rgba(255,193,7,0.2); border: 1px solid #ffc107;
-            padding: 12px 20px; border-radius: 8px; margin-bottom: 20px;
-            font-size: 0.95rem; color: #ffc107;
-        }
-        .main-content { display: flex; flex-direction: column; gap: 30px; }
-        .section {
-            background: rgba(30,30,40,0.8); padding: 25px; border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-            border: 1px solid rgba(0,255,255,0.1); backdrop-filter: blur(5px);
-        }
-        h2 {
-            color: #00ff88; margin-bottom: 20px; padding-bottom: 10px;
-            border-bottom: 1px solid rgba(0,255,136,0.3); font-size: 1.8rem;
-        }
-        .input-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; font-weight: 600; color: #ccc; }
-        textarea, input[type="text"], input[type="number"] {
-            width: 100%; padding: 15px; background: rgba(20,20,30,0.9);
-            border: 1px solid rgba(0,255,136,0.2); border-radius: 8px;
-            color: #f0f0f0; font-size: 1rem; resize: vertical;
-            font-family: 'Courier New', monospace; transition: all 0.3s;
-        }
-        textarea:focus, input:focus {
-            outline: none; border-color: #00ff88;
-            box-shadow: 0 0 10px rgba(0,255,136,0.3);
-        }
-        textarea { min-height: 120px; }
-        .controls-grid {
-            display: grid; grid-template-columns: 1fr 1fr;
-            gap: 20px; margin-bottom: 20px;
-        }
-        .controls-grid-4 {
-            display: grid; grid-template-columns: 1fr 1fr 1fr 1fr;
-            gap: 20px; margin-bottom: 20px;
-        }
-        .control-group { display: flex; flex-direction: column; gap: 10px; }
-        .key-range { font-size: 0.9rem; color: #888; }
-        .btn-group { display: flex; gap: 15px; margin-top: 20px; }
-        button {
-            background: linear-gradient(to right, #00bcd4, #0097a7);
-            color: white; border: none; padding: 12px 25px; border-radius: 8px;
-            cursor: pointer; font-size: 1rem; font-weight: 600;
-            transition: all 0.3s ease; flex: 1;
-        }
-        button:hover {
-            background: linear-gradient(to right, #0097a7, #007c91);
-            transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-        button:active { transform: translateY(0); }
-        .encrypt-btn { background: linear-gradient(to right, #00ff88, #00cc6a); }
-        .encrypt-btn:hover { background: linear-gradient(to right, #00cc6a, #00aa55); }
-        .clear-btn { background: linear-gradient(to right, #ff4444, #cc0000); }
-        .clear-btn:hover { background: linear-gradient(to right, #cc0000, #aa0000); }
-        .result-container {
-            margin-top: 20px; padding: 20px; background: rgba(20,20,30,0.9);
-            border-radius: 8px; border: 1px solid rgba(0,255,136,0.1);
-        }
-        .result-label { color: #aaa; font-size: 0.9rem; margin-bottom: 5px; }
-        .result {
-            font-family: 'Courier New', monospace; font-size: 1.1rem;
-            word-break: break-all; color: #00ff88; padding: 10px;
-            background: rgba(0,0,0,0.3); border-radius: 5px; min-height: 40px;
-        }
-        .status-info {
-            display: grid; grid-template-columns: repeat(3, 1fr);
-            gap: 15px; margin-top: 20px;
-        }
-        .status-item {
-            text-align: center; padding: 10px;
-            background: rgba(0,0,0,0.2); border-radius: 8px;
-        }
-        .status-label { color: #aaa; font-size: 0.9rem; margin-bottom: 5px; }
-        .status-value {
-            color: #00ff88; font-family: 'Courier New', monospace;
-            font-weight: bold; font-size: 1.2rem;
-        }
-        .noise-canvas-container {
-            margin-top: 20px; padding: 15px; background: rgba(0,0,0,0.4);
-            border-radius: 8px; border: 1px solid rgba(138,43,226,0.3);
-        }
-        .noise-canvas-label {
-            color: #ba68c8; font-size: 0.95rem; margin-bottom: 10px; font-weight: bold;
-        }
-        #noise-canvas {
-            width: 100%; height: 150px; background: rgba(10,10,20,0.9);
-            border-radius: 5px; display: block;
-        }
-        footer {
-            text-align: center; margin-top: 40px; padding: 20px;
-            color: #777; font-size: 0.9rem;
-            border-top: 1px solid rgba(255,255,255,0.05); width: 100%;
-        }
-        @media (max-width: 768px) {
-            .controls-grid, .controls-grid-4, .status-info { grid-template-columns: 1fr; }
-            .btn-group { flex-direction: column; }
-        }
-    </style>
+    <title>甲醚</title>
+    <link rel="stylesheet" href="jiami13.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>Litaiqi_Daquavis 的加密与解密系统</h1>
-            <div class="version-badge">v11 - CBC异或链版</div>
-            <p class="subtitle">"请输入文本"</p>
-            <div class="warning">⚠️ v11全新引入CBC异或链层:每4字符一组,密钥与第一组做模加法异或,结果链式传递给下一组,改一个字符后面全变。九层加密组合可能性突破10^650+,请妥善保管所有密钥信息。</div>
+            <h1>甲醚</h1>
+            <div class="version-badge">v11 - CBC XOR Chain Edition</div>
+            <p class="subtitle">"Enter text"</p>
+            <div class="warning">⚠️ v11 introduces a CBC XOR chain layer. Each 4-character block is chained so later output changes when one character changes. Keep all key information safe.</div>
         </header>
         <div class="main-content">
             <div class="section">
-                <h2>加密</h2>
+                <h2>Encrypt</h2>
                 <div class="controls-grid" style="grid-template-columns: 1fr 1fr;">
                     <div class="control-group">
-                        <label for="cbc-key">CBC密钥(4位):</label>
-                        <input type="text" id="cbc-key" maxlength="4" value="XKEY" placeholder="4位CBC密钥">
-                        <div class="key-range">控制CBC异或链层</div>
+                        <label for="cbc-key">CBC key (4 characters):</label>
+                        <input type="text" id="cbc-key" maxlength="4" value="XKEY" placeholder="4-character CBC key">
+                        <div class="key-range">Controls the CBC XOR chain layer</div>
                     </div>
                     <div class="control-group">
-                        <label for="sha-key">SHA密钥:</label>
-                        <input type="text" id="sha-key" maxlength="32" value="sha256" placeholder="SHA密钥(控制可逆搅拌层)">
-                        <div class="key-range">控制SHA-95可逆搅拌的分块变换和状态链</div>
+                        <label for="sha-key">SHA key:</label>
+                        <input type="text" id="sha-key" maxlength="32" value="sha256" placeholder="SHA key (controls reversible mixing layer)">
+                        <div class="key-range">Controls SHA-95 reversible block mixing and state chain</div>
                     </div>
                 </div>
                 <div class="controls-grid-4">
                     <div class="control-group">
-                        <label for="num-key">数字密钥(0-94):</label>
+                        <label for="num-key">Numeric key(0-94):</label>
                         <input type="number" id="num-key" min="0" max="94" value="1" step="1">
-                        <div class="key-range">控制三重库偏移</div>
+                        <div class="key-range">Controls triple-library offset</div>
                     </div>
                     <div class="control-group">
-                        <label for="text-key">文本密钥(8位):</label>
-                        <input type="text" id="text-key" maxlength="8" value="abcdefgh" placeholder="8位文本密钥">
-                        <div class="key-range">控制列重排排序</div>
+                        <label for="text-key">Text key (8 characters):</label>
+                        <input type="text" id="text-key" maxlength="8" value="abcdefgh" placeholder="8-character text key">
+                        <div class="key-range">Controls column transposition order</div>
                     </div>
                     <div class="control-group">
-                        <label for="noise-key">噪声密钥(种子):</label>
-                        <input type="text" id="noise-key" maxlength="16" value="perlin99" placeholder="噪声种子">
-                        <div class="key-range">控制柏林噪声曲线</div>
+                        <label for="noise-key">Noise key (seed):</label>
+                        <input type="text" id="noise-key" maxlength="16" value="perlin99" placeholder="Noise seed">
+                        <div class="key-range">Controls the Perlin noise curve</div>
                     </div>
                     <div class="control-group">
-                        <label for="lib-status">库状态码(6位):</label>
-                        <input type="text" id="lib-status" maxlength="6" value="000000" placeholder="如:012345">
-                        <div class="key-range">三库初始转数</div>
+                        <label for="lib-status">Library state code (6 digits):</label>
+                        <input type="text" id="lib-status" maxlength="6" value="000000" placeholder="e.g. 012345">
+                        <div class="key-range">Initial rotations for the three libraries</div>
                     </div>
                 </div>
                 <div class="input-group">
-                    <label for="plaintext">输入要加密的文本:</label>
-                    <textarea id="plaintext" placeholder="输入你要加密的文本...">Made by Litaiqi_Daquavis</textarea>
+                    <label for="plaintext">Text to encrypt:</label>
+                    <textarea id="plaintext" placeholder="Enter the text to encrypt...">Made by Litaiqi_Daquavis</textarea>
                 </div>
                 <div class="btn-group">
-                    <button id="encrypt-btn" class="encrypt-btn">🔒 加密文本</button>
-                    <button id="clear-encrypt" class="clear-btn">清空</button>
+                    <button id="encrypt-btn" class="encrypt-btn"> Encrypt Text</button>
+                    <button id="clear-encrypt" class="clear-btn">Clear</button>
                 </div>
                 <div class="result-container">
-                    <div class="result-label">加密结果(密文):</div>
-                    <div id="encrypted-result" class="result">等待加密...</div>
+                    <div class="result-label">Encryption Result(Ciphertext):</div>
+                    <div id="encrypted-result" class="result">Waiting to encrypt...</div>
                 </div>
                 <div class="result-container" style="border: 1px solid rgba(255,170,0,0.3);">
-                    <div class="result-label">🔑 密钥信息(必须与密文一起保存,解密时需要):</div>
-                    <div id="key-info-result" class="result" style="color: #ffaa00;">等待加密...</div>
-                    <div style="color: #666; font-size: 0.8rem; margin-top: 5px; font-style: italic;">⚠️ 丢失任一密钥信息将无法解密!</div>
+                    <div class="result-label">🔑 Key info (must be saved with ciphertext; required for decryption):</div>
+                    <div id="key-info-result" class="result" style="color: #ffaa00;">Waiting to encrypt...</div>
+                    <div style="color: #666; font-size: 0.8rem; margin-top: 5px; font-style: italic;">⚠️ Losing any key info will make decryption impossible!</div>
                 </div>
                 <div class="noise-canvas-container">
-                    <div class="noise-canvas-label">🌊 柏林噪声曲线可视化(密文长度范围内的偏移值)</div>
+                    <div class="noise-canvas-label">🌊 Perlin noise curve visualization(offset values within ciphertext length)</div>
                     <canvas id="noise-canvas" width="1100" height="150"></canvas>
                 </div>
                 <div class="status-info">
                     <div class="status-item">
-                        <div class="status-label">库1当前转数</div>
+                        <div class="status-label">Lib 1current rotations</div>
                         <div id="lib1-rotations" class="status-value">00</div>
                     </div>
                     <div class="status-item">
-                        <div class="status-label">库2当前转数</div>
+                        <div class="status-label">Lib 2current rotations</div>
                         <div id="lib2-rotations" class="status-value">00</div>
                     </div>
                     <div class="status-item">
-                        <div class="status-label">库3当前转数</div>
+                        <div class="status-label">Lib 3current rotations</div>
                         <div id="lib3-rotations" class="status-value">00</div>
                     </div>
                 </div>
             </div>
             <div class="section">
-                <h2>解密</h2>
+                <h2>Decrypt</h2>
                 <div class="input-group">
-                    <label for="ciphertext">输入要解密的文本:</label>
-                    <textarea id="ciphertext" placeholder="输入你要解密的文本..."></textarea>
+                    <label for="ciphertext">Text to decrypt:</label>
+                    <textarea id="ciphertext" placeholder="Enter the text to decrypt..."></textarea>
                 </div>
                 <div class="input-group">
-                    <label for="decrypt-cbc-key">CBC密钥(4位):</label>
-                    <input type="text" id="decrypt-cbc-key" maxlength="4" value="XKEY" placeholder="加密时的CBC密钥">
-                    <div class="key-range">加密时的CBC密钥</div>
+                    <label for="decrypt-cbc-key">CBC key (4 characters):</label>
+                    <input type="text" id="decrypt-cbc-key" maxlength="4" value="XKEY" placeholder="CBC key used during encryption">
+                    <div class="key-range">CBC key used during encryption</div>
                 </div>
                 <div class="input-group">
-                    <label for="decrypt-sha-key">SHA密钥:</label>
-                    <input type="text" id="decrypt-sha-key" maxlength="32" value="sha256" placeholder="加密时的SHA密钥">
-                    <div class="key-range">加密时的SHA密钥</div>
+                    <label for="decrypt-sha-key">SHA key:</label>
+                    <input type="text" id="decrypt-sha-key" maxlength="32" value="sha256" placeholder="SHA key used during encryption">
+                    <div class="key-range">SHA key used during encryption</div>
                 </div>
                 <div class="controls-grid-4">
                     <div class="control-group">
-                        <label for="decrypt-num-key">数字密钥(0-94):</label>
+                        <label for="decrypt-num-key">Numeric key(0-94):</label>
                         <input type="number" id="decrypt-num-key" min="0" max="94" value="1" step="1">
-                        <div class="key-range">加密时的数字密钥</div>
+                        <div class="key-range">Numeric key used during encryption</div>
                     </div>
                     <div class="control-group">
-                        <label for="decrypt-text-key">文本密钥(8位):</label>
-                        <input type="text" id="decrypt-text-key" maxlength="8" value="abcdefgh" placeholder="8位文本密钥">
-                        <div class="key-range">加密时的文本密钥</div>
+                        <label for="decrypt-text-key">Text key (8 characters):</label>
+                        <input type="text" id="decrypt-text-key" maxlength="8" value="abcdefgh" placeholder="8-character text key">
+                        <div class="key-range">Text key used during encryption</div>
                     </div>
                     <div class="control-group">
-                        <label for="decrypt-noise-key">噪声密钥(种子):</label>
-                        <input type="text" id="decrypt-noise-key" maxlength="16" value="perlin99" placeholder="噪声种子">
-                        <div class="key-range">加密时的噪声种子</div>
+                        <label for="decrypt-noise-key">Noise key (seed):</label>
+                        <input type="text" id="decrypt-noise-key" maxlength="16" value="perlin99" placeholder="Noise seed">
+                        <div class="key-range">Noise seed used during encryption</div>
                     </div>
                     <div class="control-group">
-                        <label for="decrypt-state">库状态码(6位):</label>
-                        <input type="text" id="decrypt-state" maxlength="6" value="" placeholder="加密输出的状态码">
-                        <div class="key-range">加密输出的状态码</div>
+                        <label for="decrypt-state">Library state code (6 digits):</label>
+                        <input type="text" id="decrypt-state" maxlength="6" value="" placeholder="State code from encryption output">
+                        <div class="key-range">State code from encryption output</div>
                     </div>
                 </div>
                 <div class="btn-group">
-                    <button id="decrypt-btn" class="encrypt-btn">🔓 解密文本</button>
-                    <button id="clear-decrypt" class="clear-btn">清空</button>
+                    <button id="decrypt-btn" class="encrypt-btn"> Decrypt Text</button>
+                    <button id="clear-decrypt" class="clear-btn">Clear</button>
                 </div>
                 <div class="result-container">
-                    <div class="result-label">解密结果:</div>
-                    <div id="decrypted-result" class="result">等待解密...</div>
+                    <div class="result-label">Decryption Result:</div>
+                    <div id="decrypted-result" class="result">Waiting to decrypt...</div>
                 </div>
                 <div class="status-info">
                     <div class="status-item">
-                        <div class="status-label">检测到库1转数</div>
+                        <div class="status-label">Detected Lib 1 rotations</div>
                         <div id="detected-lib1" class="status-value">00</div>
                     </div>
                     <div class="status-item">
-                        <div class="status-label">检测到库2转数</div>
+                        <div class="status-label">Detected Lib 2 rotations</div>
                         <div id="detected-lib2" class="status-value">00</div>
                     </div>
                     <div class="status-item">
-                        <div class="status-label">检测到库3转数</div>
+                        <div class="status-label">Detected Lib 3 rotations</div>
                         <div id="detected-lib3" class="status-value">00</div>
                     </div>
                 </div>
             </div>
         </div>
-        <footer><p>旋转库加密工具 v11 © 2026 | 算法设计：Litaiqi_Daquavis</p></footer>
+        <footer><p>Rotating Library Encryption Tool v11 © 2026 | Algorithm Design:Litaiqi_Daquavis</p></footer>
     </div>
 
     <script>
-        // ========== 字符库定义 ==========
+        // ========== character library definitions ==========
         const lib1Original = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+-=[]{}|;':\\\",./<>?`~ ";
         const lib2Original = "1029384756qpwoeirutyalskdjfhgzmxncbvQPWOEIRUTYALSKDJFHGZMXNCBV!)@(#*$&%^_+-={|}[]\\:\";'<?>,/.~` ";
         const lib3Original = "0192837465pqowieurytlaksjdhfgmznxbcvPQOWIEURYTLAKSJDHFGMZNXBCV)!(@*#&$^%+_=-|{}\\][\":';?<>/,.~` ";
 
         const libSize = lib1Original.length; // 95
 
-        // ========== 工具函数 ==========
+        // ========== utility functions ==========
         function formatLibRotation(rotation) {
             return rotation.toString().padStart(2, '0');
         }
@@ -311,8 +187,8 @@
             return lib.substring(rotations) + lib.substring(0, rotations);
         }
 
-        // ========== v9 柏林噪声层 ==========
-        // 字符串种子 → 数字
+        // implementation note
+        // implementation note
         function seedToNumber(seed) {
             let h = 2166136261;
             for (let i = 0; i < seed.length; i++) {
@@ -322,7 +198,7 @@
             return h >>> 0;
         }
 
-        // 基于种子的伪随机数生成器
+        // seeded pseudo-random number generator
         function mulberry32(seed) {
             return function() {
                 seed |= 0; seed = seed + 0x6D2B79F5 | 0;
@@ -333,19 +209,19 @@
             }
         }
 
-        // 柏林噪声(1D简化版)
+        // implementation note
         class PerlinNoise1D {
             constructor(seed) {
                 const rng = mulberry32(seedToNumber(seed));
-                // 生成梯度表
+                // Generate gradient table
                 this.perm = [];
                 for (let i = 0; i < 256; i++) this.perm[i] = i;
-                // Fisher-Yates打乱
+                // Fisher-Yatesshuffle
                 for (let i = 255; i > 0; i--) {
                     const j = Math.floor(rng() * (i + 1));
                     [this.perm[i], this.perm[j]] = [this.perm[j], this.perm[i]];
                 }
-                // 复制一份
+                // make a copy
                 for (let i = 0; i < 256; i++) this.perm[256 + i] = this.perm[i];
             }
 
@@ -366,7 +242,7 @@
                 );
             }
 
-            // 多层叠加(分形噪声),返回 [-1, 1]
+            // multi-layer overlay(fractal noise),return [-1, 1]
             fractal(x, octaves = 4) {
                 let total = 0;
                 let frequency = 1;
@@ -382,11 +258,11 @@
             }
         }
 
-        // 生成噪声偏移数组,长度=文本长度,每项∈[0,94]
+        // Generate noise offset array,length=textlength,each item∈[0,94]
         function generateNoiseOffsets(length, seed) {
             const perlin = new PerlinNoise1D(seed);
             const offsets = [];
-            const scale = 0.15; // 平滑度
+            const scale = 0.15; // smoothness
             for (let i = 0; i < length; i++) {
                 const n = perlin.fractal(i * scale, 4); // [-1, 1]
                 const normalized = (n + 1) / 2; // [0, 1]
@@ -395,7 +271,7 @@
             return offsets;
         }
 
-        // 柏林噪声偏移(加密)
+        // Perlin noise offset(Encrypt)
         function perlinNoiseEncrypt(text, seed) {
             const offsets = generateNoiseOffsets(text.length, seed);
             let result = '';
@@ -412,7 +288,7 @@
             return result;
         }
 
-        // 柏林噪声偏移(解密)
+        // Perlin noise offset(Decrypt)
         function perlinNoiseDecrypt(text, seed) {
             const offsets = generateNoiseOffsets(text.length, seed);
             let result = '';
@@ -430,7 +306,7 @@
             return result;
         }
 
-        // 绘制噪声曲线
+        // Draw noise curve
         function drawNoiseCanvas(length, seed) {
             const canvas = document.getElementById('noise-canvas');
             const ctx = canvas.getContext('2d');
@@ -438,8 +314,8 @@
             const H = canvas.height;
             ctx.clearRect(0, 0, W, H);
 
-            // 背景网格
-            ctx.strokeStyle = 'rgba(138,43,226,0.1)';
+            // background grid
+            ctx.strokeStyle = 'rgba(255,209,102,0.1)';
             ctx.lineWidth = 1;
             for (let i = 0; i <= 10; i++) {
                 const y = (H / 10) * i;
@@ -454,10 +330,10 @@
 
             const offsets = generateNoiseOffsets(length, seed);
 
-            // 填充区域
+            // filled area
             const gradient = ctx.createLinearGradient(0, 0, 0, H);
-            gradient.addColorStop(0, 'rgba(186,104,200,0.6)');
-            gradient.addColorStop(1, 'rgba(138,43,226,0.05)');
+            gradient.addColorStop(0, 'rgba(255,209,102,0.6)');
+            gradient.addColorStop(1, 'rgba(255,209,102,0.05)');
             ctx.fillStyle = gradient;
             ctx.beginPath();
             ctx.moveTo(0, H);
@@ -470,8 +346,8 @@
             ctx.closePath();
             ctx.fill();
 
-            // 曲线
-            ctx.strokeStyle = '#ba68c8';
+            // curve
+            ctx.strokeStyle = '#ffd166';
             ctx.lineWidth = 2;
             ctx.beginPath();
             for (let i = 0; i < offsets.length; i++) {
@@ -482,16 +358,16 @@
             }
             ctx.stroke();
 
-            // 标注
+            // label
             ctx.fillStyle = '#888';
             ctx.font = '11px Courier New';
             ctx.fillText('94', 5, 12);
             ctx.fillText('47', 5, H/2);
             ctx.fillText('0', 5, H - 5);
-            ctx.fillText('长度: ' + length, W - 90, 14);
+            ctx.fillText('length: ' + length, W - 90, 14);
         }
 
-        // ========== v5 位置打乱层(不再倒放,倒放移到最后) ==========
+        // implementation note
         function shufflePositions(text) {
             const chars = text.split('');
             const smallGroups = [];
@@ -522,7 +398,7 @@
                 const last = bg[2][2];
                 bg[2] = [last, bg[2][0], bg[2][1]];
             }
-            // v9:不再 reverse 大组,倒放移到最后
+            // implementation note
             let result = [];
             for (const bg of bigGroups) for (const sg of bg) result = result.concat(sg);
             for (const sg of remainderGroups) result = result.concat(sg);
@@ -553,7 +429,7 @@
             for (let i = fullBigGroupCount * 3; i < smallGroups.length; i++) {
                 remainderGroups.push(smallGroups[i].slice());
             }
-            // v9:无需 reverse 大组
+            // implementation note
             for (const bg of bigGroups) {
                 const last = bg[1][2];
                 bg[1] = [last, bg[1][0], bg[1][1]];
@@ -566,7 +442,7 @@
             return result.join('');
         }
 
-        // ========== v6 链式雪崩 ==========
+        // ========== v6 chained avalanche ==========
         function chainAvalanche(text) {
             if (text.length === 0) return text;
             let result = text.split('');
@@ -592,7 +468,7 @@
             return result.join('');
         }
 
-        // ========== v7 列重排 ==========
+        // ========== v7 column transposition ==========
         function columnTranspose(text, key) {
             if (text.length === 0 || key.length === 0) return text;
             const numCols = key.length;
@@ -655,7 +531,7 @@
             return result;
         }
 
-        // ========== 三重旋转库加密 ==========
+        // ========== Triple Rotating Library Encryption ==========
         function tripleLibEncrypt(text, key, initialStateCode) {
             const initState = parseLibStatusCode(initialStateCode);
             let lib1 = rotateLib(lib1Original, initState.lib1Rot);
@@ -728,7 +604,7 @@
                 }
             };
         }
-        // ========== 三重旋转库解密 ==========
+        // ========== Triple rotating librariesDecrypt ==========
         function tripleLibDecrypt(ciphertext, key, finalStateCode) {
             const finalState = parseLibStatusCode(finalStateCode);
             const textLength = ciphertext.length;
@@ -809,7 +685,7 @@
             };
         }
 
-        // ========== v8 比特编码层 ==========
+        // ========== v8 bit encodinglayer ==========
         function charToCode(char) {
             const idx = lib1Original.indexOf(char);
             if (idx === -1) return null;
@@ -892,8 +768,8 @@
             return text.split('').map(bitDecodeChar).join('');
         }
 
-        // ========== v11 CBC异或链层 ==========
-        // 每4字符一组,密钥与第一组做mod 95加法(等价于XOR),结果链式传递
+        // ========== v11 CBCXOR chainlayer ==========
+        // group every 4 characters,key adds with first block mod 95(equivalent to XOR),result is chained forward
 
         function cbcEncrypt(text, cbcKey) {
             while (cbcKey.length < 4) cbcKey += cbcKey;
@@ -902,7 +778,7 @@
             const blockSize = 4;
             const fullBlocks = Math.floor(text.length / blockSize);
 
-            // 密钥作为初始"前一组密文"
+            // keyas initial"previous ciphertext block"
             let prev = [];
             for (let i = 0; i < blockSize; i++) {
                 prev.push((cbcKey.charCodeAt(i) - 32 + 95) % 95);
@@ -915,15 +791,15 @@
                 for (let i = 0; i < blockSize; i++) {
                     const idx = b * blockSize + i;
                     let norm = (text.charCodeAt(idx) - 32 + 95) % 95;
-                    // mod 95加法(可逆XOR等价)
+                    // implementation note
                     norm = (norm + prev[i]) % 95;
                     block.push(norm);
                     result += String.fromCharCode(norm + 32);
                 }
-                prev = block; // 链式传递
+                prev = block; // chained state transfer
             }
 
-            // 剩余不足4个的字符原样追加
+            // append remaining fewer than 4 characters unchanged
             for (let i = fullBlocks * blockSize; i < text.length; i++) {
                 result += text[i];
             }
@@ -951,15 +827,15 @@
                     const idx = b * blockSize + i;
                     const encNorm = (ciphertext.charCodeAt(idx) - 32 + 95) % 95;
                     currentBlock.push(encNorm);
-                    // 逆运算:减法
+                    // implementation note
                     let norm = (encNorm - prev[i]) % 95;
                     if (norm < 0) norm += 95;
                     result += String.fromCharCode(norm + 32);
                 }
-                prev = currentBlock; // 用密文链接
+                prev = currentBlock; // chain using ciphertext
             }
 
-            // 剩余字符原样还原
+            // implementation note
             for (let i = fullBlocks * blockSize; i < ciphertext.length; i++) {
                 result += ciphertext[i];
             }
@@ -967,9 +843,9 @@
             return result;
         }
 
-        // ========== v10 SHA-95可逆搅拌层 ==========
-        // 借鉴SHA-256的可逆操作(ROTR+XOR+mod加法),去掉不可逆的压缩函数和SHR
-        // 分块处理 + 块间状态链(SHA-256核心架构)
+        // ========== v10 SHA-95reversible mixinglayer ==========
+        // implementation note
+        // block processing + inter-block state chain(SHA-256core architecture)
 
         function sha95DeriveState(shaKey) {
             let state = 42;
@@ -1011,13 +887,13 @@
                     let norm = c - 32;
                     const pos = j - blockStart;
 
-                    // Round 1: 位置旋转(模拟ROTR)
+                    // rotate character libraries
                     norm = (norm + (pos + 1) * 7) % 95;
 
-                    // Round 2: 密钥流混合(模拟XOR)
+                    // implementation note
                     norm = (norm + keyStream[j]) % 95;
 
-                    // Round 3: 状态扩散(模拟mod 232加法 + 块间链)
+                    // implementation note
                     norm = (norm + state * 3) % 95;
 
                     blockResult += String.fromCharCode(norm + 32);
@@ -1025,7 +901,7 @@
 
                 result += blockResult;
 
-                // 更新状态(基于密文,确保解密时可重算)
+                // Update state(based on ciphertext so decryption can recompute it)
                 let blockSum = 0;
                 for (let k = 0; k < blockResult.length; k++) {
                     blockSum = (blockSum + blockResult.charCodeAt(k)) % 95;
@@ -1055,22 +931,22 @@
                     let norm = c - 32;
                     const pos = j - blockStart;
 
-                    // Round 3 逆:状态扩散还原
+                    // Round 3 inverse:state diffusionrestore
                     norm = (norm - state * 3) % 95;
                     if (norm < 0) norm += 95;
 
-                    // Round 2 逆:密钥流还原
+                    // implementation note
                     norm = (norm - keyStream[j]) % 95;
                     if (norm < 0) norm += 95;
 
-                    // Round 1 逆:位置旋转还原
+                    // rotate character libraries
                     norm = (norm - (pos + 1) * 7) % 95;
                     if (norm < 0) norm += 95;
 
                     result += String.fromCharCode(norm + 32);
                 }
 
-                // 更新状态(基于密文,和加密时完全一致)
+                // implementation note
                 let blockSum = 0;
                 for (let k = 0; k < blockCipher.length; k++) {
                     blockSum = (blockSum + blockCipher.charCodeAt(k)) % 95;
@@ -1081,37 +957,37 @@
             return result;
         }
 
-        // ========== v11 完整加密流程 ==========
-        // 0.CBC异或链 → 1.SHA-95可逆搅拌 → 2.比特编码 → 3.三重旋转库 → 4.位置打乱 → 5.链式雪崩 → 6.列重排 → 7.柏林噪声偏移 → 8.倒放
+        // ========== v11 complete encryption flow ==========
+        // 0.CBCXOR chain → 1.SHA-95reversible mixing → 2.bit encoding → 3.Triple rotating libraries → 4.position shuffle → 5.chained avalanche → 6.column transposition → 7.Perlin noise offset → 8.reverse
         function encryptV11(text, numKey, textKey, noiseKey, shaKey, cbcKey, initialStateCode) {
-            // Step 0: CBC异或链
+            // Step 0: CBCXOR chain
             const cbcResult = cbcEncrypt(text, cbcKey);
 
-            // Step 1: SHA-95可逆搅拌层
+            // Step 1: SHA-95reversible mixinglayer
             const sha95Result = sha95Encrypt(cbcResult, shaKey);
 
-            // Step 2: 比特编码层
+            // Step 2: bit encodinglayer
             const bitEncoded = bitEncode(sha95Result);
 
-            // Step 3: 三重旋转库加密
+            // Step 3: Triple Rotating Library Encryption
             const tripleResult = tripleLibEncrypt(bitEncoded, numKey, initialStateCode);
 
-            // Step 4: 位置打乱
+            // Step 4: position shuffle
             const shuffled = shufflePositions(tripleResult.ciphertext);
 
-            // Step 5: 链式雪崩
+            // Step 5: chained avalanche
             const avalanched = chainAvalanche(shuffled);
 
-            // Step 6: 列重排
+            // Step 6: column transposition
             const transposed = columnTranspose(avalanched, textKey);
 
-            // Step 7: 柏林噪声偏移
+            // Step 7: Perlin noise offset
             const noised = perlinNoiseEncrypt(transposed, noiseKey);
 
-            // Step 8: 倒放
+            // Step 8: reverse
             const reversed = noised.split('').reverse().join('');
 
-            // 生成状态码
+            // Generate state code
             const statusCode = generateLibStatusCode(
                 tripleResult.finalState.lib1Rot,
                 tripleResult.finalState.lib2Rot,
@@ -1126,34 +1002,34 @@
             };
         }
 
-        // ========== v11 完整解密流程 ==========
-        // 逆序:8.倒放还原 → 7.噪声还原 → 6.列重排还原 → 5.雪崩还原 → 4.位置还原 → 3.三重库解密 → 2.比特解码 → 1.SHA-95逆变换 → 0.CBC解密
+        // ========== v11 complete decryption flow ==========
+        // implementation note
         function decryptV11(ciphertext, textKey, numKey, noiseKey, shaKey, cbcKey, stateCode) {
-            // Step 8 逆:倒放还原
+            // Step 8 inverse:reverserestore
             const unreversed = ciphertext.split('').reverse().join('');
 
-            // Step 7 逆:噪声还原
+            // implementation note
             const denoised = perlinNoiseDecrypt(unreversed, noiseKey);
 
-            // Step 6 逆:列重排还原
+            // Step 6 inverse:column transpositionrestore
             const untransposed = columnTransposeReverse(denoised, textKey);
 
-            // Step 5 逆:链式雪崩还原
+            // Step 5 inverse:chained avalancherestore
             const unavalanched = chainAvalancheReverse(untransposed);
 
-            // Step 4 逆:位置还原
+            // Step 4 inverse:positionrestore
             const unshuffled = unshufflePositions(unavalanched);
 
-            // Step 3 逆:三重旋转库解密
+            // Step 3 inverse:Triple rotating librariesDecrypt
             const tripleResult = tripleLibDecrypt(unshuffled, numKey, stateCode);
 
-            // Step 2 逆:比特解码
+            // implementation note
             const bitDecoded = bitDecode(tripleResult.result);
 
-            // Step 1 逆:SHA-95可逆搅拌还原
+            // Step 1 inverse:SHA-95reversible mixingrestore
             const sha95Decrypted = sha95Decrypt(bitDecoded, shaKey);
 
-            // Step 0 逆:CBC异或链解密
+            // Step 0 inverse:CBCXOR chainDecrypt
             const cbcDecrypted = cbcDecrypt(sha95Decrypted, cbcKey);
 
             return {
@@ -1164,9 +1040,9 @@
                 initialState: tripleResult.initialState
             };
         }
-        // ========== UI 事件绑定 ==========
+        // ========== UI event binding ==========
         document.addEventListener('DOMContentLoaded', function() {
-            // 实时更新噪声曲线
+            // Update noise curve in real time
             function updateNoiseCanvas() {
                 const text = document.getElementById('plaintext').value;
                 const seed = document.getElementById('noise-key').value || 'default';
@@ -1175,9 +1051,9 @@
 
             document.getElementById('plaintext').addEventListener('input', updateNoiseCanvas);
             document.getElementById('noise-key').addEventListener('input', updateNoiseCanvas);
-            updateNoiseCanvas(); // 初始化
+            updateNoiseCanvas(); // Initialize
 
-            // 加密按钮
+            // Encryptbutton
             document.getElementById('encrypt-btn').addEventListener('click', function() {
                 const plaintext = document.getElementById('plaintext').value;
                 const numKey = document.getElementById('num-key').value;
@@ -1188,35 +1064,35 @@
                 const initialStateCode = document.getElementById('lib-status').value || '000000';
 
                 if (!plaintext) {
-                    alert('请输入要加密的文本!');
+                    alert('Please enter text to encrypt!');
                     return;
                 }
                 if (!numKey || numKey < 0 || numKey > 94) {
-                    alert('请输入有效的数字密钥(0-94)!');
+                    alert('Please enter a valid Numeric key(0-94)!');
                     return;
                 }
                 if (!textKey || textKey.length !== 8) {
-                    alert('请输入8位文本密钥！');
+                    alert('Please enter an 8-character text key！');
                     return;
                 }
                 if (!cbcKey || cbcKey.length !== 4) {
-                    alert('请输入4位CBC密钥！');
+                    alert('Please enter a 4-character CBC key！');
                     return;
                 }
                 if (!/^\d{6}$/.test(initialStateCode)) {
-                    alert('初始库状态码必须是6位数字!');
+                    alert('Initial library state code must be 6 digits!');
                     return;
                 }
 
                 try {
                     const result = encryptV11(plaintext, numKey, textKey, noiseKey, shaKey, cbcKey, initialStateCode);
                     document.getElementById('encrypted-result').textContent = result.ciphertext;
-                    document.getElementById('key-info-result').textContent = '库状态码: ' + result.stateCode + ' | CBC密钥: ' + cbcKey + ' | SHA密钥: ' + shaKey + ' | 数字密钥: ' + numKey + ' | 文本密钥: ' + textKey + ' | 噪声种子: ' + noiseKey;
+                    document.getElementById('key-info-result').textContent = 'Library state code: ' + result.stateCode + ' | CBC key: ' + cbcKey + ' | SHA key: ' + shaKey + ' | Numeric key: ' + numKey + ' | Text key: ' + textKey + ' | Noise seed: ' + noiseKey;
                     document.getElementById('lib1-rotations').textContent = formatLibRotation(result.finalState.lib1Rot);
                     document.getElementById('lib2-rotations').textContent = formatLibRotation(result.finalState.lib2Rot);
                     document.getElementById('lib3-rotations').textContent = formatLibRotation(result.finalState.lib3Rot);
 
-                    // 自动同步到解密区
+                    // Auto-sync to decryption area
                     document.getElementById('ciphertext').value = result.ciphertext;
                     document.getElementById('decrypt-num-key').value = numKey;
                     document.getElementById('decrypt-text-key').value = textKey;
@@ -1225,12 +1101,12 @@
                     document.getElementById('decrypt-cbc-key').value = cbcKey;
                     document.getElementById('decrypt-state').value = result.stateCode;
                 } catch (e) {
-                    alert('加密出错:' + e.message);
+                    alert('Encryption error:' + e.message);
                     console.error(e);
                 }
             });
 
-            // 解密按钮
+            // Decryptbutton
             document.getElementById('decrypt-btn').addEventListener('click', function() {
                 const ciphertext = document.getElementById('ciphertext').value;
                 const numKey = document.getElementById('decrypt-num-key').value;
@@ -1241,19 +1117,19 @@
                 const stateCode = document.getElementById('decrypt-state').value;
 
                 if (!ciphertext) {
-                    alert('请输入要解密的文本!');
+                    alert('Please enter text to decrypt!');
                     return;
                 }
                 if (!numKey || numKey < 0 || numKey > 94) {
-                    alert('请输入有效的数字密钥(0-94)!');
+                    alert('Please enter a valid Numeric key(0-94)!');
                     return;
                 }
                 if (!textKey || textKey.length !== 8) {
-                    alert('请输入8位文本密钥!');
+                    alert('Please enter an 8-character text key!');
                     return;
                 }
                 if (!stateCode || !/^\d{6}$/.test(stateCode)) {
-                    alert('请输入6位数字的库状态码!');
+                    alert('Please enter a 6-digit numeric library state code!');
                     return;
                 }
 
@@ -1264,16 +1140,16 @@
                     document.getElementById('detected-lib2').textContent = formatLibRotation(result.initialState.lib2Rot);
                     document.getElementById('detected-lib3').textContent = formatLibRotation(result.initialState.lib3Rot);
                 } catch (e) {
-                    alert('解密出错:' + e.message);
+                    alert('Decryption error:' + e.message);
                     console.error(e);
                 }
             });
 
-            // 清空按钮
+            // Clearbutton
             document.getElementById('clear-encrypt').addEventListener('click', function() {
                 document.getElementById('plaintext').value = '';
-                document.getElementById('encrypted-result').textContent = '等待加密...';
-                document.getElementById('key-info-result').textContent = '等待加密...';
+                document.getElementById('encrypted-result').textContent = 'Waiting to encrypt...';
+                document.getElementById('key-info-result').textContent = 'Waiting to encrypt...';
                 document.getElementById('lib1-rotations').textContent = '00';
                 document.getElementById('lib2-rotations').textContent = '00';
                 document.getElementById('lib3-rotations').textContent = '00';
@@ -1282,7 +1158,7 @@
 
             document.getElementById('clear-decrypt').addEventListener('click', function() {
                 document.getElementById('ciphertext').value = '';
-                document.getElementById('decrypted-result').textContent = '等待解密...';
+                document.getElementById('decrypted-result').textContent = 'Waiting to decrypt...';
                 document.getElementById('detected-lib1').textContent = '00';
                 document.getElementById('detected-lib2').textContent = '00';
                 document.getElementById('detected-lib3').textContent = '00';

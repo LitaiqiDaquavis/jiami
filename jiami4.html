@@ -3,400 +3,116 @@
 <html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Litaiqi_Daquavis 旋转库加密系统</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
-            color: #e6e6e6;
-            min-height: 100vh;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .container {
-            max-width: 1200px;
-            width: 100%;
-            margin: 0 auto;
-        }
-
-        header {
-            text-align: center;
-            padding: 30px 20px;
-            margin-bottom: 20px;
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(0, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-        }
-
-        h1 {
-            color: #00ff88;
-            font-size: 2.8rem;
-            margin-bottom: 10px;
-            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
-            background: linear-gradient(90deg, #00ff88, #00bcd4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .subtitle {
-            color: #aaa;
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-        }
-
-        .warning {
-            background-color: rgba(255, 193, 7, 0.2);
-            border: 1px solid #ffc107;
-            padding: 12px 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 0.95rem;
-            color: #ffc107;
-        }
-
-        .main-content {
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-        }
-
-        .section {
-            background: rgba(30, 30, 40, 0.8);
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(0, 255, 255, 0.1);
-            backdrop-filter: blur(5px);
-        }
-
-        h2 {
-            color: #00ff88;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(0, 255, 136, 0.3);
-            font-size: 1.8rem;
-        }
-
-        .input-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #ccc;
-        }
-
-        textarea, input[type="text"], input[type="number"], select {
-            width: 100%;
-            padding: 15px;
-            background: rgba(20, 20, 30, 0.9);
-            border: 1px solid rgba(0, 255, 136, 0.2);
-            border-radius: 8px;
-            color: #f0f0f0;
-            font-size: 1rem;
-            resize: vertical;
-            font-family: 'Courier New', monospace;
-            transition: all 0.3s;
-        }
-
-        textarea:focus, input:focus, select:focus {
-            outline: none;
-            border-color: #00ff88;
-            box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
-        }
-
-        textarea {
-            min-height: 120px;
-        }
-
-        .controls-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        .control-group {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .key-range {
-            font-size: 0.9rem;
-            color: #888;
-        }
-
-        .lib-status {
-            font-family: 'Courier New', monospace;
-            color: #00bcd4;
-            font-weight: bold;
-            font-size: 1.2rem;
-            text-align: center;
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 8px;
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        button {
-            background: linear-gradient(to right, #00bcd4, #0097a7);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            flex: 1;
-        }
-
-        button:hover {
-            background: linear-gradient(to right, #0097a7, #007c91);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        button:active {
-            transform: translateY(0);
-        }
-
-        .encrypt-btn {
-            background: linear-gradient(to right, #00ff88, #00cc6a);
-        }
-
-        .encrypt-btn:hover {
-            background: linear-gradient(to right, #00cc6a, #00aa55);
-        }
-
-        .clear-btn {
-            background: linear-gradient(to right, #ff4444, #cc0000);
-        }
-
-        .clear-btn:hover {
-            background: linear-gradient(to right, #cc0000, #aa0000);
-        }
-
-        .result-container {
-            margin-top: 20px;
-            padding: 20px;
-            background: rgba(20, 20, 30, 0.9);
-            border-radius: 8px;
-            border: 1px solid rgba(0, 255, 136, 0.1);
-        }
-
-        .result-label {
-            color: #aaa;
-            font-size: 0.9rem;
-            margin-bottom: 5px;
-        }
-
-        .result {
-            font-family: 'Courier New', monospace;
-            font-size: 1.1rem;
-            word-break: break-all;
-            color: #00ff88;
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 5px;
-            min-height: 40px;
-        }
-
-        .lib-preview {
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 8px;
-            border-left: 4px solid #00bcd4;
-        }
-
-        .lib-title {
-            color: #00bcd4;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .lib-content {
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-            word-break: break-all;
-            color: #ccc;
-        }
-
-        .status-info {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .status-item {
-            text-align: center;
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-        }
-
-        .status-label {
-            color: #aaa;
-            font-size: 0.9rem;
-            margin-bottom: 5px;
-        }
-
-        .status-value {
-            color: #00ff88;
-            font-family: 'Courier New', monospace;
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            padding: 20px;
-            color: #777;
-            font-size: 0.9rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            width: 100%;
-        }
-
-        @media (max-width: 768px) {
-            .controls-grid, .status-info {
-                grid-template-columns: 1fr;
-            }
-
-            .btn-group {
-                flex-direction: column;
-            }
-        }
-    </style>
+    <title>甲醚</title>
+    <link rel="stylesheet" href="jiami13.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>Litaiqi_Daquavis 的加密与解密系统</h1>
-            <p class="subtitle">"恩尼格玛"</p>
+            <h1>甲醚</h1>
+            <p class="subtitle">"Enigma"</p>
             <div class="warning">
-                ⚠️ 为保障信息安全,即使该算法的组合可达到10^200以上,也请勿让他人偷窥到您的屏幕,切勿泄露明文信息
+                ⚠️ To protect information security, do not let others view your screen or expose plaintext information.
             </div>
         </header>
 
         <div class="main-content">
             <div class="section">
-                <h2>三重旋转库加密</h2>
+                <h2>Triple Rotating Library Encryption</h2>
 
                 <div class="controls-grid">
                     <div class="control-group">
-                        <label for="key">加密密钥(0-94):</label>
+                        <label for="key">Encryption Key(0-94):</label>
                         <input type="number" id="key" class="key-input" min="0" max="94" value="1" step="1">
-                        <div class="key-range">范围:0-94</div>
+                        <div class="key-range">Range:0-94</div>
                     </div>
 
                     <div class="control-group">
-                        <label for="lib-status">库状态码(6位数字):</label>
-                        <input type="text" id="lib-status" maxlength="6" value="000000" placeholder="如:012345">
-                        <div class="key-range">格式:库1转数(2位) + 库2转数(2位) + 库3转数(2位)</div>
+                        <label for="lib-status">Library state code (6-digit number):</label>
+                        <input type="text" id="lib-status" maxlength="6" value="000000" placeholder="e.g. 012345">
+                        <div class="key-range">Format:Lib 1 rotations (2 digits) + Lib 2 rotations (2 digits) + Lib 3 rotations (2 digits)</div>
                     </div>
                 </div>
 
                 <div class="input-group">
-                    <label for="plaintext">输入要加密的文本:</label>
-                    <textarea id="plaintext" placeholder="输入你要加密的文本...">abc</textarea>
+                    <label for="plaintext">Text to encrypt:</label>
+                    <textarea id="plaintext" placeholder="Enter the text to encrypt...">Made by Litaiqi_Daquavis</textarea>
                 </div>
 
                 <div class="btn-group">
-                    <button id="encrypt-btn" class="encrypt-btn">加密文本</button>
-                    <button id="clear-encrypt" class="clear-btn">清空</button>
+                    <button id="encrypt-btn" class="encrypt-btn">Encrypt Text</button>
+                    <button id="clear-encrypt" class="clear-btn">Clear</button>
                 </div>
 
                 <div class="result-container">
-                    <div class="result-label">加密结果(末尾6位是库状态码):</div>
+                    <div class="result-label">Encryption Result(Last 6 digits are the library state code):</div>
                     <div id="encrypted-result" class="result">9~ *&lt;3|1m:&gt;DU])]RbJYRacPmU260200</div>
                 </div>
 
                 <div class="status-info">
                     <div class="status-item">
-                        <div class="status-label">库1当前转数</div>
+                        <div class="status-label">Lib 1current rotations</div>
                         <div id="lib1-rotations" class="status-value">26</div>
                     </div>
                     <div class="status-item">
-                        <div class="status-label">库2当前转数</div>
+                        <div class="status-label">Lib 2current rotations</div>
                         <div id="lib2-rotations" class="status-value">02</div>
                     </div>
                     <div class="status-item">
-                        <div class="status-label">库3当前转数</div>
+                        <div class="status-label">Lib 3current rotations</div>
                         <div id="lib3-rotations" class="status-value">00</div>
                     </div>
                 </div>
             </div>
 
             <div class="section">
-                <h2>解密</h2>
+                <h2>Decrypt</h2>
 
                 <div class="input-group">
-                    <label for="ciphertext">输入要解密的文本:</label>
-                    <textarea id="ciphertext" placeholder="输入你要解密的文本..."></textarea>
+                    <label for="ciphertext">Text to decrypt:</label>
+                    <textarea id="ciphertext" placeholder="Enter the text to decrypt..."></textarea>
                 </div>
 
                 <div class="btn-group">
-                    <button id="decrypt-btn" class="encrypt-btn">解密文本</button>
-                    <button id="clear-decrypt" class="clear-btn">清空</button>
+                    <button id="decrypt-btn" class="encrypt-btn">Decrypt Text</button>
+                    <button id="clear-decrypt" class="clear-btn">Clear</button>
                 </div>
 
                 <div class="result-container">
-                    <div class="result-label">解密结果:</div>
+                    <div class="result-label">Decryption Result:</div>
                     <div id="decrypted-result" class="result">Made by Litaiqi_Daquavis</div>
                 </div>
 
                 <div class="status-info">
                     <div class="status-item">
-                        <div class="status-label">检测到库1转数</div>
+                        <div class="status-label">Detected Lib 1 rotations</div>
                         <div id="detected-lib1" class="status-value">26</div>
                     </div>
                     <div class="status-item">
-                        <div class="status-label">检测到库2转数</div>
+                        <div class="status-label">Detected Lib 2 rotations</div>
                         <div id="detected-lib2" class="status-value">02</div>
                     </div>
                     <div class="status-item">
-                        <div class="status-label">检测到库3转数</div>
+                        <div class="status-label">Detected Lib 3 rotations</div>
                         <div id="detected-lib3" class="status-value">00</div>
                     </div>
                 </div>
             </div>
             <div class="section">
-                <h2>字符库信息</h2>
+                <h2>Character Library Info</h2>
 
                 <div class="lib-preview">
-                    <div class="lib-title">库1(原始库,长度:95):</div>
+                    <div class="lib-title">Lib 1(original library,length:95):</div>
                     <div id="lib1-preview" class="lib-content">0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&amp;*()_+-=[]{}|;':\",./&lt;&gt;?`~ </div>
                 </div>
 
                 <div class="lib-preview">
-                    <div class="lib-title">库2(替换库1,长度:95):</div>
+                    <div class="lib-title">Lib 2(substitutionLib 1,length:95):</div>
                     <div id="lib2-preview" class="lib-content">1029384756qpwoeirutyalskdjfhgzmxncbvQPWOEIRUTYALSKDJFHGZMXNCBV!)@(#*$&amp;%^_+-={|}[]\:";'&lt;?&gt;,/.~` </div>
                 </div>
 
                 <div class="lib-preview">
-                    <div class="lib-title">库3(替换库2,长度:95):</div>
+                    <div class="lib-title">Lib 3(substitutionLib 2,length:95):</div>
                     <div id="lib3-preview" class="lib-content">0192837465pqowieurytlaksjdhfgmznxbcvPQOWIEURYTLAKSJDHFGMZNXBCV)!(@*#&amp;$^%+_=-|{}\][":';?&lt;&gt;/,.~` </div>
                 </div>
             </div>
@@ -404,29 +120,29 @@
 
         </div>
         <footer>
-            <p>旋转库加密工具 © 2026 | 算法设计:Litaiqi_Daquavis | 三重动态字符库旋转系统</p>
+            <p>Rotating Library Encryption Tool © 2026 | Algorithm Design:Litaiqi_Daquavis | triple dynamic character library rotation system</p>
         </footer>
     
 
     <script>
-        // 定义原始字符库
+        // implementation note
 	const lib1Original = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+-=[]{}|;':\\\",./<>?`~ ";
 	const lib2Original = "1029384756qpwoeirutyalskdjfhgzmxncbvQPWOEIRUTYALSKDJFHGZMXNCBV!)@(#*$&%^_+-={|}[]\\:\";'<?>,/.~` ";
 	const lib3Original = "0192837465pqowieurytlaksjdhfgmznxbcvPQOWIEURYTLAKSJDHFGMZNXBCV)!(@*#&$^%+_=-|{}\\][\":';?<>/,.~` ";
 
-        const libSize = lib1Original.length; // 所有库长度相同
+        const libSize = lib1Original.length; // all libraries have the same length
 
-        // 显示字符库预览
+        // display preview
         document.getElementById('lib1-preview').textContent = lib1Original;
         document.getElementById('lib2-preview').textContent = lib2Original;
         document.getElementById('lib3-preview').textContent = lib3Original;
 
-        // 格式化库转数为2位
+        // implementation note
         function formatLibRotation(rotation) {
             return rotation.toString().padStart(2, '0');
         }
 
-        // 解析库状态码
+        // parse key/state
         function parseLibStatusCode(code) {
             if (code.length !== 6 || !/^\d{6}$/.test(code)) {
                 return { lib1Rot: 0, lib2Rot: 0, lib3Rot: 0 };
@@ -439,14 +155,14 @@
             };
         }
 
-        // 生成库状态码
+        // generate key/state
         function generateLibStatusCode(lib1Rot, lib2Rot, lib3Rot) {
             return formatLibRotation(lib1Rot % libSize) +
                    formatLibRotation(lib2Rot % libSize) +
                    formatLibRotation(lib3Rot % libSize);
         }
 
-        // 旋转字符库(将第一个字符移到末尾)
+        // rotate character libraries
         function rotateLib(lib, rotations) {
             rotations = rotations % lib.length;
             if (rotations === 0) return lib;
@@ -454,24 +170,24 @@
             return lib.substring(rotations) + lib.substring(0, rotations);
         }
 
-        // 增强加密算法(三重旋转库)
+        // enhanced algorithm
         function encryptEnhancedWithRotatingLibs(text, key, initialStateCode) {
-            // 解析初始状态
+            // parse key/state
             const initState = parseLibStatusCode(initialStateCode);
 
-            // 初始化字符库
+            // initialize display
             let lib1 = rotateLib(lib1Original, initState.lib1Rot);
             let lib2 = rotateLib(lib2Original, initState.lib2Rot);
             let lib3 = rotateLib(lib3Original, initState.lib3Rot);
 
-            // 初始化旋转计数器
+            // initialize display
             let lib1Rotations = initState.lib1Rot;
             let lib2Rotations = initState.lib2Rot;
             let lib3Rotations = initState.lib3Rot;
 
-            // 初始化旋转控制计数器
-            let lib1RotationCount = 0; // 库1自上次库2旋转后的旋转次数
-            let lib2RotationCount = 0; // 库2自上次库3旋转后的旋转次数
+            // initialize display
+            let lib1RotationCount = 0; // Lib 1 rotations since the last Lib 2 rotation
+            let lib2RotationCount = 0; // Lib 2 rotations since the last Lib 3 rotation
 
             const keyNum = parseInt(key) % libSize;
             let result = "";
@@ -480,26 +196,26 @@
                 const char = text[i];
                 const position = i + 1;
 
-                // 查找字符在库1中的位置
+                // implementation note
                 const charIndex1 = lib1.indexOf(char);
 
                 if (charIndex1 === -1) {
-                    // 字符不在库中,直接添加
+                    // implementation note
                     result += char;
 
-                    // 仍然需要旋转库1
+                    // rotate character libraries
                     lib1 = rotateLib(lib1, 1);
                     lib1Rotations = (lib1Rotations + 1) % libSize;
                     lib1RotationCount++;
 
-                    // 检查是否需要旋转库2
+                    // rotate character libraries
                     if (lib1RotationCount >= 12) {
                         lib1RotationCount = 0;
                         lib2 = rotateLib(lib2, 1);
                         lib2Rotations = (lib2Rotations + 1) % libSize;
                         lib2RotationCount++;
 
-                        // 检查是否需要旋转库3
+                        // rotate character libraries
                         if (lib2RotationCount >= 12) {
                             lib2RotationCount = 0;
                             lib3 = rotateLib(lib3, 1);
@@ -510,35 +226,35 @@
                     continue;
                 }
 
-                // 使用库1加密
+                // implementation note
                 let newIndex1 = (charIndex1 + position + keyNum) % libSize;
                 let char1 = lib1[newIndex1];
 
-                // 使用库2加密
+                // implementation note
                 const charIndex2 = lib2.indexOf(char1);
                 let newIndex2 = (charIndex2 + position + keyNum) % libSize;
                 let char2 = lib2[newIndex2];
 
-                // 使用库3加密
+                // implementation note
                 const charIndex3 = lib3.indexOf(char2);
                 let newIndex3 = (charIndex3 + position + keyNum) % libSize;
                 let char3 = lib3[newIndex3];
 
                 result += char3;
 
-                // 旋转库1
+                // rotate character libraries
                 lib1 = rotateLib(lib1, 1);
                 lib1Rotations = (lib1Rotations + 1) % libSize;
                 lib1RotationCount++;
 
-                // 检查是否需要旋转库2
+                // rotate character libraries
                 if (lib1RotationCount >= 12) {
                     lib1RotationCount = 0;
                     lib2 = rotateLib(lib2, 1);
                     lib2Rotations = (lib2Rotations + 1) % libSize;
                     lib2RotationCount++;
 
-                    // 检查是否需要旋转库3
+                    // rotate character libraries
                     if (lib2RotationCount >= 12) {
                         lib2RotationCount = 0;
                         lib3 = rotateLib(lib3, 1);
@@ -547,10 +263,10 @@
                 }
             }
 
-            // 反转结果
+            // implementation note
             const reversedResult = result.split('').reverse().join('');
 
-            // 添加库状态码
+            // implementation note
             const finalStateCode = generateLibStatusCode(lib1Rotations, lib2Rotations, lib3Rotations);
 
             return {
@@ -563,50 +279,50 @@
             };
         }
 
-        // 增强解密算法
+        // enhanced algorithm
         function decryptEnhancedWithRotatingLibs(ciphertext, key) {
             if (ciphertext.length < 6) {
-                return { success: false, result: "密文太短" };
+                return { success: false, result: "Ciphertext is too short" };
             }
 
-            // 提取库状态码
+            // extract key/state
             const stateCode = ciphertext.substring(ciphertext.length - 6);
             const finalState = parseLibStatusCode(stateCode);
 
-            // 实际密文(去掉状态码)
+            // raw ciphertext
             const actualCipher = ciphertext.substring(0, ciphertext.length - 6);
 
-            // 反转密文
+            // implementation note
             const reversedCipher = actualCipher.split('').reverse().join('');
 
-            // 计算初始旋转状态
+            // rotate character libraries
             const textLength = reversedCipher.length;
 
-            // 计算库1总旋转次数
+            // rotate character libraries
             const totalLib1Rotations = textLength;
 
-            // 计算库2总旋转次数(每12个字符旋转一次)
+            // rotate character libraries
             const totalLib2Rotations = Math.floor(textLength / 12);
 
-            // 计算库3总旋转次数(每144个字符旋转一次)
+            // rotate character libraries
             const totalLib3Rotations = Math.floor(textLength / 144);
 
-            // 计算初始旋转状态
+            // rotate character libraries
             let initLib1Rot = (finalState.lib1Rot - totalLib1Rotations) % libSize;
             let initLib2Rot = (finalState.lib2Rot - totalLib2Rotations) % libSize;
             let initLib3Rot = (finalState.lib3Rot - totalLib3Rotations) % libSize;
 
-            // 确保非负
+            // implementation note
             if (initLib1Rot < 0) initLib1Rot += libSize;
             if (initLib2Rot < 0) initLib2Rot += libSize;
             if (initLib3Rot < 0) initLib3Rot += libSize;
 
-            // 初始化字符库
+            // initialize display
             let lib1 = rotateLib(lib1Original, initLib1Rot);
             let lib2 = rotateLib(lib2Original, initLib2Rot);
             let lib3 = rotateLib(lib3Original, initLib3Rot);
 
-            // 初始化旋转计数器
+            // initialize display
             let lib1RotationCount = 0;
             let lib2RotationCount = 0;
 
@@ -617,24 +333,24 @@
                 const char = reversedCipher[i];
                 const position = i + 1;
 
-                // 查找字符在库3中的位置
+                // implementation note
                 const charIndex3 = lib3.indexOf(char);
 
                 if (charIndex3 === -1) {
-                    // 字符不在库中,直接添加
+                    // implementation note
                     result += char;
 
-                    // 旋转库1
+                    // rotate character libraries
                     lib1 = rotateLib(lib1, 1);
                     lib1RotationCount++;
 
-                    // 检查是否需要旋转库2
+                    // rotate character libraries
                     if (lib1RotationCount >= 12) {
                         lib1RotationCount = 0;
                         lib2 = rotateLib(lib2, 1);
                         lib2RotationCount++;
 
-                        // 检查是否需要旋转库3
+                        // rotate character libraries
                         if (lib2RotationCount >= 12) {
                             lib2RotationCount = 0;
                             lib3 = rotateLib(lib3, 1);
@@ -644,18 +360,18 @@
                     continue;
                 }
 
-                // 使用库3解密
+                // implementation note
                 let originalIndex3 = (charIndex3 - position - keyNum) % libSize;
                 if (originalIndex3 < 0) originalIndex3 += libSize;
                 let char2 = lib3[originalIndex3];
 
-                // 使用库2解密
+                // implementation note
                 const charIndex2 = lib2.indexOf(char2);
                 let originalIndex2 = (charIndex2 - position - keyNum) % libSize;
                 if (originalIndex2 < 0) originalIndex2 += libSize;
                 let char1 = lib2[originalIndex2];
 
-                // 使用库1解密
+                // implementation note
                 const charIndex1 = lib1.indexOf(char1);
                 let originalIndex1 = (charIndex1 - position - keyNum) % libSize;
                 if (originalIndex1 < 0) originalIndex1 += libSize;
@@ -663,17 +379,17 @@
 
                 result += originalChar;
 
-                // 旋转库1
+                // rotate character libraries
                 lib1 = rotateLib(lib1, 1);
                 lib1RotationCount++;
 
-                // 检查是否需要旋转库2
+                // rotate character libraries
                 if (lib1RotationCount >= 12) {
                     lib1RotationCount = 0;
                     lib2 = rotateLib(lib2, 1);
                     lib2RotationCount++;
 
-                    // 检查是否需要旋转库3
+                    // rotate character libraries
                     if (lib2RotationCount >= 12) {
                         lib2RotationCount = 0;
                         lib3 = rotateLib(lib3, 1);
@@ -693,7 +409,7 @@
             };
         }
 
-        // 获取DOM元素
+        // get DOM elements
         const plaintextInput = document.getElementById('plaintext');
         const ciphertextInput = document.getElementById('ciphertext');
         const keyInput = document.getElementById('key');
@@ -711,7 +427,7 @@
         const detectedLib2Display = document.getElementById('detected-lib2');
         const detectedLib3Display = document.getElementById('detected-lib3');
 
-        // 限制密钥输入范围
+        // implementation note
         function clampKeyInput() {
             let keyValue = parseInt(keyInput.value) || 0;
 
@@ -724,21 +440,21 @@
             keyInput.value = keyValue;
         }
 
-        // 限制库状态码输入
+        // implementation note
         function clampLibStatusInput() {
             let statusValue = libStatusInput.value;
 
-            // 只允许数字
+            // implementation note
             statusValue = statusValue.replace(/\D/g, '');
 
-            // 限制为6位
+            // implementation note
             if (statusValue.length > 6) {
                 statusValue = statusValue.substring(0, 6);
             }
 
             libStatusInput.value = statusValue;
 
-            // 更新显示
+            // display preview
             if (statusValue.length === 6) {
                 const state = parseLibStatusCode(statusValue);
                 lib1RotationsDisplay.textContent = formatLibRotation(state.lib1Rot);
@@ -747,11 +463,11 @@
             }
         }
 
-        // 加密按钮事件
+        // event handling
         encryptBtn.addEventListener('click', function() {
             const plaintext = plaintextInput.value;
             if (plaintext.trim() === "") {
-                encryptedResult.textContent = "请输入要加密的文本";
+                encryptedResult.textContent = "Please enter text to encrypt";
                 return;
             }
 
@@ -762,31 +478,31 @@
 
             encryptedResult.textContent = result.ciphertext;
 
-            // 更新旋转状态显示
+            // rotate character libraries
             lib1RotationsDisplay.textContent = formatLibRotation(result.finalState.lib1Rot);
             lib2RotationsDisplay.textContent = formatLibRotation(result.finalState.lib2Rot);
             lib3RotationsDisplay.textContent = formatLibRotation(result.finalState.lib3Rot);
 
-            // 自动填充到解密输入框
+            // auto-fill decryption input
             ciphertextInput.value = result.ciphertext;
 
-            // 提取并显示检测到的库状态
+            // display preview
             const detectedState = parseLibStatusCode(result.ciphertext.substring(result.ciphertext.length - 6));
             detectedLib1Display.textContent = formatLibRotation(detectedState.lib1Rot);
             detectedLib2Display.textContent = formatLibRotation(detectedState.lib2Rot);
             detectedLib3Display.textContent = formatLibRotation(detectedState.lib3Rot);
         });
 
-        // 解密按钮事件
+        // event handling
         decryptBtn.addEventListener('click', function() {
             const ciphertext = ciphertextInput.value;
             if (ciphertext.trim() === "") {
-                decryptedResult.textContent = "请输入要解密的文本";
+                decryptedResult.textContent = "Please enter text to decrypt";
                 return;
             }
 
             if (ciphertext.length < 6) {
-                decryptedResult.textContent = "密文太短,无法解密";
+                decryptedResult.textContent = "Ciphertext is too short,cannot decrypt";
                 decryptedResult.style.color = "#ff4444";
                 return;
             }
@@ -796,9 +512,9 @@
 
             if (result.success) {
                 decryptedResult.textContent = result.result;
-                decryptedResult.style.color = "#00ff88";
+                decryptedResult.style.color = "#ffd166";
 
-                // 更新库状态码输入框
+                // implementation note
                 const initialStateCode = generateLibStatusCode(
                     result.initialState.lib1Rot,
                     result.initialState.lib2Rot,
@@ -807,28 +523,28 @@
                 libStatusInput.value = initialStateCode;
                 clampLibStatusInput();
 
-                // 更新检测到的库状态显示
+                // display preview
                 detectedLib1Display.textContent = formatLibRotation(result.finalState.lib1Rot);
                 detectedLib2Display.textContent = formatLibRotation(result.finalState.lib2Rot);
                 detectedLib3Display.textContent = formatLibRotation(result.finalState.lib3Rot);
             } else {
-                decryptedResult.textContent = "解密失败: " + result.result;
+                decryptedResult.textContent = "Decryption failed: " + result.result;
                 decryptedResult.style.color = "#ff4444";
             }
         });
 
-        // 清空按钮事件
+        // event handling
         clearEncryptBtn.addEventListener('click', function() {
             plaintextInput.value = "";
-            encryptedResult.textContent = "等待加密...";
+            encryptedResult.textContent = "Waiting to encrypt...";
         });
 
         clearDecryptBtn.addEventListener('click', function() {
             ciphertextInput.value = "";
-            decryptedResult.textContent = "等待解密...";
+            decryptedResult.textContent = "Waiting to decrypt...";
         });
 
-        // 页面加载时示例
+        // implementation note
         window.addEventListener('load', function() {
             const exampleText = "Made by Litaiqi_Daquavis";
             const exampleKey = 1;
@@ -838,39 +554,39 @@
             keyInput.value = exampleKey;
             libStatusInput.value = exampleLibStatus;
 
-            // 计算示例
+            // calculate index
             const result = encryptEnhancedWithRotatingLibs(exampleText, exampleKey, exampleLibStatus);
 
             encryptedResult.textContent = result.ciphertext;
 
-            // 更新旋转状态显示
+            // rotate character libraries
             lib1RotationsDisplay.textContent = formatLibRotation(result.finalState.lib1Rot);
             lib2RotationsDisplay.textContent = formatLibRotation(result.finalState.lib2Rot);
             lib3RotationsDisplay.textContent = formatLibRotation(result.finalState.lib3Rot);
 
-            // 填充解密框
+            // implementation note
             ciphertextInput.value = result.ciphertext;
 
-            // 提取并显示检测到的库状态
+            // display preview
             const detectedState = parseLibStatusCode(result.ciphertext.substring(result.ciphertext.length - 6));
             detectedLib1Display.textContent = formatLibRotation(detectedState.lib1Rot);
             detectedLib2Display.textContent = formatLibRotation(detectedState.lib2Rot);
             detectedLib3Display.textContent = formatLibRotation(detectedState.lib3Rot);
 
-            // 解密示例
+            // implementation note
             const decrypted = decryptEnhancedWithRotatingLibs(result.ciphertext, exampleKey);
             if (decrypted.success) {
                 decryptedResult.textContent = decrypted.result;
             }
         });
 
-        // 输入验证
+        // implementation note
         keyInput.addEventListener('input', clampKeyInput);
         keyInput.addEventListener('change', clampKeyInput);
         libStatusInput.addEventListener('input', clampLibStatusInput);
         libStatusInput.addEventListener('change', clampLibStatusInput);
 
-        // 初始验证
+        // implementation note
         clampKeyInput();
         clampLibStatusInput();
     </script>
